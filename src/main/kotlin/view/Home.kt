@@ -11,7 +11,7 @@ class Home : JFrame() {
 
     init {
         setFrameLookAndFeel()
-        //buildUi()
+        buildUi()
         setFrameConfigurations()
     }
 
@@ -30,7 +30,8 @@ class Home : JFrame() {
     }
 
     private fun buildUi() {
-        TODO("Not yet implemented")
+        // TODO("Implement syntax highlight")
+
     }
 
     private fun setFrameConfigurations() {

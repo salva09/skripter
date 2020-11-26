@@ -11,10 +11,6 @@ repositories {
     mavenCentral()
 }
 
-dependencies {
-    implementation("com.fifesoft:rsyntaxtextarea:3.1.1")
-}
-
 tasks.withType<KotlinCompile>() {
     kotlinOptions.jvmTarget = "1.8"
 }
