@@ -7,12 +7,14 @@ import javax.swing.JOptionPane
 object FileManager {
     private lateinit var fileChooser: JFileChooser
     private var file: File? = null
+    var menuItem: JMenuItem? = null
     var fileName = ""
         private set
 
-    fun openFile(openFile: JMenuItem): Boolean {
+    fun openFile(): Boolean {
+        checkMenuItem()
         fileChooser = JFileChooser()
-        val result = fileChooser.showOpenDialog(openFile)
+        val result = fileChooser.showOpenDialog(menuItem)
 
         if (result != 0) throw IOException("No file open")
 
@@ -30,13 +32,14 @@ object FileManager {
         return File(file!!.absolutePath).readText()
     }
 
-    fun saveFile(openFile: JMenuItem, modifiedText: String) {
+    fun saveFile(modifiedText: String) {
+        checkMenuItem()
         if (file != null) {
             File(file!!.absolutePath).writeText(modifiedText)
         } else {
             fileChooser = JFileChooser()
             fileChooser.dialogTitle = "Save file"
-            val result = fileChooser.showSaveDialog(openFile)
+            val result = fileChooser.showSaveDialog(menuItem)
 
             if (result == JFileChooser.APPROVE_OPTION) {
                 file = File(fileChooser.selectedFile.absolutePath)
@@ -46,10 +49,11 @@ object FileManager {
         fileName = file!!.name
     }
 
-    fun saveFileAs(openFile: JMenuItem, modifiedText: String) {
+    fun saveFileAs(modifiedText: String) {
+        checkMenuItem()
         fileChooser = JFileChooser()
         fileChooser.dialogTitle = "Save file"
-        val result = fileChooser.showSaveDialog(openFile)
+        val result = fileChooser.showSaveDialog(menuItem)
 
         if (result == JFileChooser.APPROVE_OPTION) {
             file = File(fileChooser.selectedFile.absolutePath)
@@ -62,5 +66,11 @@ object FileManager {
         file = null
         fileName = ""
         return ""
+    }
+
+    private fun checkMenuItem() {
+        if (menuItem == null) {
+            throw Exception("Menu item is not initialized")
+        }
     }
 }
