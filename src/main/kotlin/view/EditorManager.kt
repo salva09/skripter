@@ -4,52 +4,60 @@ import javax.swing.JOptionPane
 import FileManager
 import javax.swing.JEditorPane
 import javax.swing.JFrame
+import kotlin.system.exitProcess
 
 class EditorManager(private val frame: JFrame, private val editorPane: JEditorPane) {
     private var savedText = ""
 
     fun newFile() {
-        setEditorContent("")
+        if (isPreviousTextSaved()) {
+            setEditorContent("")
+        } else {
+            promptFileWarning {
+                setEditorContent("")
+            }
+        }
     }
     
     fun openFile() {
-        if (!isPreviousTextSaved()) {
-            when (promptFileWarning()) {
-                0 -> { saveFile() }
-                1 -> {}
-                else -> { return }
+        if (isPreviousTextSaved()) {
+            FileManager.openFile()
+            setEditorContent(FileManager.getFileContent())
+        } else {
+            promptFileWarning {
+                FileManager.openFile()
+                setEditorContent(FileManager.getFileContent())
             }
         }
-
-        FileManager.openFile()
-        setEditorContent(FileManager.getFileContent())
     }
     
     fun saveFile() {
-        // TODO("Fix double dialog when accepting to save but cancel the save dialog")
         try {
             FileManager.saveFile(editorPane.text)
             savedText = editorPane.text
         } catch (ex: Exception) {}
     }
 
-    private fun setEditorContent(newContent: String) {
-        if (isPreviousTextSaved())
-            editorPane.text = newContent
-        else {
-            when (promptFileWarning()) {
-                0 -> { saveFile() }
-                1 -> { editorPane.text = newContent }
-                else -> {}
+    fun closeFile() {
+        if (isPreviousTextSaved()) {
+            exitProcess(0)
+        } else {
+            promptFileWarning {
+                exitProcess(0)
             }
         }
     }
 
-    private fun promptFileWarning(): Int {
+    private fun setEditorContent(newContent: String) {
+        editorPane.text = newContent
+        savedText = newContent
+    }
+
+    private fun promptFileWarning(callback: () -> Unit = {}) {
         val options = arrayOf(
-            "Yes, please",
-            "No, thanks",
-            "Abort mission!"
+            "Yes",
+            "No",
+            "Cancel"
         )
 
         val result = JOptionPane.showOptionDialog(
@@ -64,14 +72,11 @@ class EditorManager(private val frame: JFrame, private val editorPane: JEditorPa
             options[2]
         )
 
-        return result
-    }
-
-    private fun saveEditorContent() {
-        try {
-            FileManager.saveFile(editorPane.text)
-            savedText = editorPane.text
-        } catch (ex: Exception) {}
+        when (result) {
+            2 -> { return }
+            0 -> { saveFile() }
+        }
+        callback()
     }
 
     private fun isPreviousTextSaved(): Boolean {
