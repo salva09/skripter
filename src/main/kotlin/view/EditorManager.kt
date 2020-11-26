@@ -7,10 +7,14 @@ import javax.swing.JFrame
 
 class EditorManager(val frame: JFrame, val editorPane: JEditorPane) {
     private var savedText = ""
+
+    fun newFile() {
+        setEditorContent("")
+    }
     
     fun openFile() {
         if (FileManager.openFile()) {
-            setEditorContent()
+            setEditorContent(FileManager.getFileContent())
         }
     }
     
@@ -20,15 +24,19 @@ class EditorManager(val frame: JFrame, val editorPane: JEditorPane) {
         } catch (ex: Exception) {}
     }
 
-    private fun setEditorContent() {
+    private fun setEditorContent(newContent: String) {
         if (isPreviousTextSaved())
-            editorPane.text = FileManager.getFileContent()
+            editorPane.text = newContent
         else {
-            promptFileWarning()
+            when (promptFileWarning()) {
+                0 -> { saveFile() }
+                1 -> { editorPane.text = newContent }
+                else -> {}
+            }
         }
     }
 
-    private fun promptFileWarning() {
+    private fun promptFileWarning(): Int {
         val options = arrayOf(
             "Yes, please",
             "No, thanks",
@@ -47,11 +55,7 @@ class EditorManager(val frame: JFrame, val editorPane: JEditorPane) {
             options[2]
         )
 
-        when (result) {
-            0 -> { saveEditorContent() }
-            1 -> {}
-            2 -> {}
-        }
+        return result
     }
 
     private fun saveEditorContent() {
