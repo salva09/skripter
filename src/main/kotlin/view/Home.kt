@@ -1,8 +1,9 @@
 package view
 
-import FileManager
 import com.formdev.flatlaf.FlatDarculaLaf
+import java.awt.Color
 import java.awt.Dimension
+import java.awt.Insets
 import java.awt.event.ActionEvent
 import java.awt.event.WindowAdapter
 import java.awt.event.WindowEvent
@@ -63,7 +64,7 @@ class Home : JFrame() {
         // TODO("Implement syntax highlight")
         editorPane = JEditorPane()
         outputPane = JEditorPane()
-        editorManager = EditorManager(this, editorPane)
+        editorManager = EditorManager(this, editorPane, outputPane)
 
         editorPane.isEditable = true
         outputPane.isEditable = false
@@ -93,24 +94,33 @@ class Home : JFrame() {
 
         menuBar.add(file)
 
-        val toggleAction: Action = object : AbstractAction("Start") {
+        val toggleAction: Action = object : AbstractAction() {
             override fun actionPerformed(e: ActionEvent) {
                 val button = e.source as AbstractButton
                 if (button.isSelected) {
-                    button.text = "Stop"
-                    // Start the action here
+                    button.icon = ImageIcon(javaClass.getResource("/icons/stop.png"))
+                    editorManager.runScript()
                 } else {
-                    button.text = "Start"
-                    // Stop the action here
+                    button.icon = ImageIcon(javaClass.getResource("/icons/play.png"))
+                    editorManager.stopScript()
                 }
             }
         }
 
-        menuBar.add(JToggleButton(toggleAction))
+        val runButton = JToggleButton(toggleAction)
+        runButton.icon = ImageIcon(javaClass.getResource("/icons/play.png"))
+        runButton.margin = null //Insets(0, 0, 0, 0)
+        runButton.background = Color(48, 50, 52)
+        // runButton.border = null with borders looks better imo
+
+        // This is just a spacer
+        menuBar.add(Box.createHorizontalGlue())
+
+        menuBar.add(runButton)
         jMenuBar = menuBar
     }
 
-    fun newMenuItem(label: String, action: () -> Unit, parent: JMenu) {
+    private fun newMenuItem(label: String, action: () -> Unit, parent: JMenu) {
         val exit = JMenuItem(label)
 
         exit.addActionListener {

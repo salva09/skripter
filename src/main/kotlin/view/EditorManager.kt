@@ -6,7 +6,11 @@ import javax.swing.JEditorPane
 import javax.swing.JFrame
 import kotlin.system.exitProcess
 
-class EditorManager(private val frame: JFrame, private val editorPane: JEditorPane) {
+class EditorManager(
+    private val frame: JFrame,
+    private val editorPane: JEditorPane,
+    private val outputPane: JEditorPane
+) {
     private var savedText = ""
 
     fun newFile() {
@@ -42,6 +46,10 @@ class EditorManager(private val frame: JFrame, private val editorPane: JEditorPa
         ifIsSavedElseSave {
             Runner.run(editorPane.text)
         }
+    }
+
+    fun stopScript() {
+
     }
 
     private fun setEditorContent(newContent: String) {
