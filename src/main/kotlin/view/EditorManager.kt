@@ -22,11 +22,14 @@ class EditorManager(private val frame: JFrame, private val editorPane: JEditorPa
         }
     }
     
-    fun saveFile() {
-        try {
+    fun saveFile(): Boolean {
+        return try {
             FileManager.saveFile(editorPane.text)
             savedText = editorPane.text
-        } catch (ex: Exception) {}
+            true
+        } catch (ex: Exception) {
+            false
+        }
     }
 
     fun closeFile() {
@@ -38,6 +41,24 @@ class EditorManager(private val frame: JFrame, private val editorPane: JEditorPa
     private fun setEditorContent(newContent: String) {
         editorPane.text = newContent
         savedText = newContent
+    }
+
+    private fun ifIsSavedElseSave(callback: () -> Unit) {
+        if (isPreviousTextSaved()) {
+            callback()
+        } else {
+            promptFileWarning {
+                callback()
+            }
+        }
+    }
+
+    private fun isPreviousTextSaved(): Boolean {
+        // TODO("Better implementation to validate if a text was saved")
+        // this implementation of comparing string may be bad at large code sources
+        // but this is for scripts so I hope it's okay
+        if (editorPane.text == savedText) return true
+        return false
     }
 
     private fun promptFileWarning(callback: () -> Unit = {}) {
@@ -59,29 +80,16 @@ class EditorManager(private val frame: JFrame, private val editorPane: JEditorPa
             options[2]
         )
 
+        /*
+        Results:
+        0 -> File will be saved and callback is called (if file is saved successfully)
+        1 -> The file won't be saved but callback will be called
+        2 -> Interrupts the function and callback is not called
+        */
         when (result) {
             2 -> { return }
-            0 -> { saveFile() }
+            0 -> { if (!saveFile()) return }
         }
         callback()
-    }
-
-    private fun ifIsSavedElseSave(callback: () -> Unit) {
-        if (isPreviousTextSaved()) {
-            callback()
-        } else {
-            promptFileWarning {
-                callback()
-            }
-        }
-    }
-
-    private fun isPreviousTextSaved(): Boolean {
-        // TODO("Better implementation to validate if a text was saved")
-        // this implementation of comparing string may be bad at large code sources
-        // but this is for scripts so I hope it's okay
-        if (editorPane.text == "") return true
-        if (editorPane.text == savedText) return true
-        return false
     }
 }
