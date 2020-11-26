@@ -1,12 +1,13 @@
 package view
 
+import com.formdev.flatlaf.FlatDarculaLaf
 import java.awt.Dimension
 import javax.swing.*
 import kotlin.system.exitProcess
 
 
 class Home : JFrame() {
-    var mainPane: JPanel = JPanel()
+    private lateinit var mainPane: JPanel
 
     init {
         setFrameLookAndFeel()
@@ -16,7 +17,7 @@ class Home : JFrame() {
 
     private fun setFrameLookAndFeel() {
         try {
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName())
+            UIManager.setLookAndFeel(FlatDarculaLaf())
         } catch (ex: Exception) {
             JOptionPane.showMessageDialog(
                 this,
@@ -31,6 +32,7 @@ class Home : JFrame() {
 
     private fun buildUi() {
         // TODO("Implement syntax highlight")
+        mainPane = JPanel()
         createMenuBar()
         createPanes()
     }
