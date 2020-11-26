@@ -1,8 +1,6 @@
 package view
 
 import java.awt.Dimension
-import java.io.IOException
-import java.net.URL
 import javax.swing.*
 import kotlin.system.exitProcess
 
@@ -33,6 +31,11 @@ class Home : JFrame() {
 
     private fun buildUi() {
         // TODO("Implement syntax highlight")
+        createMenuBar()
+        createPanes()
+    }
+
+    private fun createPanes() {
         val editorPane = JEditorPane()
         val outputPane = JPanel()
 
@@ -47,6 +50,12 @@ class Home : JFrame() {
 
         val splitPane = JSplitPane(JSplitPane.VERTICAL_SPLIT, editorScrollPane, outputPane)
         mainPane.add(splitPane)
+    }
+
+    private fun createMenuBar() {
+        val menuBar = JMenuBar()
+
+        jMenuBar = menuBar
     }
 
     private fun setFrameConfigurations() {
