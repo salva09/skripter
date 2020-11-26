@@ -86,6 +86,11 @@ class Home : JFrame() {
 
         val file = JMenu("File")
 
+        val newFile = JMenuItem("New")
+        newFile.addActionListener {
+            editorManager.newFile()
+        }
+
         val openFile = JMenuItem("Open file")
         FileManager.menuItem = openFile
         openFile.addActionListener {
@@ -97,16 +102,17 @@ class Home : JFrame() {
             editorManager.saveFile()
         }
 
-        val newFile = JMenuItem("New")
-        newFile.addActionListener {
-            editorManager.newFile()
+        val exit = JMenuItem("Exit")
+        exit.addActionListener {
+            editorManager.closeFile()
         }
 
         file.add(newFile)
         file.add(openFile)
         file.add(saveFile)
-        menuBar.add(file)
+        file.add(exit)
 
+        menuBar.add(file)
         jMenuBar = menuBar
     }
 }
