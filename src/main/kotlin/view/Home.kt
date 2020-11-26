@@ -31,13 +31,13 @@ class Home : JFrame() {
     }
 
     private fun buildUi() {
-        // TODO("Implement syntax highlight")
         mainPane = JPanel()
         createMenuBar()
         createPanes()
     }
 
     private fun createPanes() {
+        // TODO("Implement syntax highlight")
         val editorPane = JEditorPane()
         val outputPane = JEditorPane()
 
@@ -58,6 +58,7 @@ class Home : JFrame() {
     }
 
     private fun createMenuBar() {
+        // TODO("Add basic options and a run button")
         val menuBar = JMenuBar()
 
         menuBar.add(JMenu("Test"))
@@ -66,7 +67,7 @@ class Home : JFrame() {
     }
 
     private fun setFrameConfigurations() {
-        size = Dimension(510, 540)
+        size = Dimension(510, 545)
         isResizable = false
         title = "Skripter"
         contentPane = mainPane
