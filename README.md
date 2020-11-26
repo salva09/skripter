@@ -2,7 +2,7 @@
 A GUI tool that allows users to enter a script, execute it, and see its output side-by-side
 
 ## Required functionality:
-- [ ] Should have an editor pane and an output pane.
+- [x] Should have an editor pane and an output pane.
 - [ ] Write the script to a file and run it using `/usr/bin/env swift foo.swift`, or `kotlinc -script foo.kts` respectively.
 - [ ] Assume the script might run for a long time.
 - [ ] Show live output of the script as it executes.
