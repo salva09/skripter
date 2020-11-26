@@ -55,6 +55,8 @@ class Home : JFrame() {
     private fun createMenuBar() {
         val menuBar = JMenuBar()
 
+        menuBar.add(JMenu("Test"))
+
         jMenuBar = menuBar
     }
 
