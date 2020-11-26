@@ -39,18 +39,21 @@ class Home : JFrame() {
 
     private fun createPanes() {
         val editorPane = JEditorPane()
-        val outputPane = JPanel()
+        val outputPane = JEditorPane()
 
         editorPane.isEditable = true
+        outputPane.isEditable = false
 
         val editorScrollPane = JScrollPane(editorPane)
         editorScrollPane.verticalScrollBarPolicy = JScrollPane.VERTICAL_SCROLLBAR_ALWAYS
         editorScrollPane.preferredSize = Dimension(500, 450)
         editorScrollPane.minimumSize = Dimension(500, 100)
 
-        outputPane.minimumSize = Dimension(500, 100)
+        val outputScrollPane = JScrollPane(outputPane)
+        outputScrollPane.verticalScrollBarPolicy = JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED
+        outputScrollPane.minimumSize = Dimension(500, 100)
 
-        val splitPane = JSplitPane(JSplitPane.VERTICAL_SPLIT, editorScrollPane, outputPane)
+        val splitPane = JSplitPane(JSplitPane.VERTICAL_SPLIT, editorScrollPane, outputScrollPane)
         mainPane.add(splitPane)
     }
 
