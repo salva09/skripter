@@ -38,6 +38,12 @@ class EditorManager(private val frame: JFrame, private val editorPane: JEditorPa
         }
     }
 
+    fun runScript() {
+        ifIsSavedElseSave {
+            Runner.run(editorPane.text)
+        }
+    }
+
     private fun setEditorContent(newContent: String) {
         editorPane.text = newContent
         savedText = newContent
