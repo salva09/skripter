@@ -98,22 +98,20 @@ class Home : JFrame() {
             override fun actionPerformed(e: ActionEvent) {
                 val button = e.source as AbstractButton
                 if (button.isSelected) {
-                    button.icon = ImageIcon(javaClass.getResource("/icons/stop.png"))
+                    button.text = "Stop"
                     editorManager.runScript()
                 } else {
-                    button.icon = ImageIcon(javaClass.getResource("/icons/play.png"))
+                    button.text = "Run"
                     editorManager.stopScript()
                 }
             }
         }
 
         val runButton = JToggleButton(toggleAction)
-        runButton.icon = ImageIcon(javaClass.getResource("/icons/play.png"))
-        runButton.margin = null //Insets(0, 0, 0, 0)
-        runButton.background = Color(48, 50, 52)
-        // runButton.border = null with borders looks better imo
+        runButton.text = "Run"
+        //runButton.border = null  // looks really bad without borders
 
-        // This is just a spacer
+        // Spacer
         menuBar.add(Box.createHorizontalGlue())
 
         menuBar.add(runButton)
