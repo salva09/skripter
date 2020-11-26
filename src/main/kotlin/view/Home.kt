@@ -41,7 +41,9 @@ class Home : JFrame() {
         val editorScrollPane = JScrollPane(editorPane)
         editorScrollPane.verticalScrollBarPolicy = JScrollPane.VERTICAL_SCROLLBAR_ALWAYS
         editorScrollPane.preferredSize = Dimension(500, 500)
-        editorScrollPane.minimumSize = Dimension(10, 10)
+        editorScrollPane.minimumSize = Dimension(500, 100)
+
+        outputPane.minimumSize = Dimension(500, 100)
 
         val splitPane = JSplitPane(JSplitPane.VERTICAL_SPLIT, editorScrollPane, outputPane)
         mainPane.add(splitPane)
@@ -49,6 +51,7 @@ class Home : JFrame() {
 
     private fun setFrameConfigurations() {
         size = Dimension(510, 540)
+        isResizable = false
         title = "Skripter"
         contentPane = mainPane
         defaultCloseOperation = EXIT_ON_CLOSE
