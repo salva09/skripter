@@ -16,7 +16,7 @@ object FileManager {
 
         if (result != 0) throw IOException("No file open")
 
-        return if (!fileChooser.selectedFile.name.endsWith(".txt")) {
+        return if (!fileChooser.selectedFile.name.endsWith(".kts")) {
             JOptionPane.showMessageDialog(null, "File type not supported", "Error", JOptionPane.ERROR_MESSAGE)
             false
         } else {
