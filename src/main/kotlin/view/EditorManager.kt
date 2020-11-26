@@ -5,7 +5,7 @@ import FileManager
 import javax.swing.JEditorPane
 import javax.swing.JFrame
 
-class EditorManager(val frame: JFrame, val editorPane: JEditorPane) {
+class EditorManager(private val frame: JFrame, private val editorPane: JEditorPane) {
     private var savedText = ""
 
     fun newFile() {
@@ -13,14 +13,23 @@ class EditorManager(val frame: JFrame, val editorPane: JEditorPane) {
     }
     
     fun openFile() {
-        if (FileManager.openFile()) {
-            setEditorContent(FileManager.getFileContent())
+        if (!isPreviousTextSaved()) {
+            when (promptFileWarning()) {
+                0 -> { saveFile() }
+                1 -> {}
+                else -> { return }
+            }
         }
+
+        FileManager.openFile()
+        setEditorContent(FileManager.getFileContent())
     }
     
     fun saveFile() {
+        // TODO("Fix double dialog when accepting to save but cancel the save dialog")
         try {
             FileManager.saveFile(editorPane.text)
+            savedText = editorPane.text
         } catch (ex: Exception) {}
     }
 
@@ -69,8 +78,8 @@ class EditorManager(val frame: JFrame, val editorPane: JEditorPane) {
         // TODO("Better implementation to validate if a text was saved")
         // this implementation of comparing string may be bad at large code sources
         // but this is for scripts so I hope it's okay
-        if (savedText == "") return true
-        if (savedText == editorPane.text) return true
+        if (editorPane.text == "") return true
+        if (editorPane.text == savedText) return true
         return false
     }
 }
