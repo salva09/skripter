@@ -20,7 +20,7 @@ A GUI tool that allows users to enter a script, execute it, and see its output s
 * [OpenJDK 11](https://openjdk.java.net/) - Runtime environment and development kit
 * [Gradle](https://gradle.org/) - Build system
 
-## Authonr
+## Author
 * **Salvador** - [salva09](https://github.com/salva09)
 
 ## License
