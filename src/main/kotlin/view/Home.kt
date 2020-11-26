@@ -38,13 +38,14 @@ class Home : JFrame() {
 
         val editorScrollPane = JScrollPane(editorPane)
         editorScrollPane.verticalScrollBarPolicy = JScrollPane.VERTICAL_SCROLLBAR_ALWAYS
-        editorScrollPane.preferredSize = Dimension(250, 145)
+        editorScrollPane.preferredSize = Dimension(500, 500)
         editorScrollPane.minimumSize = Dimension(10, 10)
 
         mainPane.add(editorScrollPane)
     }
 
     private fun setFrameConfigurations() {
+        size = Dimension(510, 540)
         title = "Skripter"
         contentPane = mainPane
         defaultCloseOperation = EXIT_ON_CLOSE
