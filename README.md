@@ -24,4 +24,4 @@ A GUI tool that allows users to enter a script, execute it, and see its output s
 * **Salvador** - [salva09](https://github.com/salva09)
 
 ## License
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE)file for details.
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE) file for details.
