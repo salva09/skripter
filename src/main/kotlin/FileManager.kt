@@ -36,17 +36,10 @@ object FileManager {
         checkMenuItem()
         if (file != null) {
             File(file!!.absolutePath).writeText(modifiedText)
+            fileName = file!!.name
         } else {
-            fileChooser = JFileChooser()
-            fileChooser.dialogTitle = "Save file"
-            val result = fileChooser.showSaveDialog(menuItem)
-
-            if (result == JFileChooser.APPROVE_OPTION) {
-                file = File(fileChooser.selectedFile.absolutePath)
-                file!!.writeText(modifiedText)
-            }
+            saveFileAs(modifiedText)
         }
-        fileName = file!!.name
     }
 
     fun saveFileAs(modifiedText: String) {
