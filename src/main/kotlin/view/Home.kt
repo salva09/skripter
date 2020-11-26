@@ -1,10 +1,11 @@
 package view
 
-import javax.swing.JFrame
-import javax.swing.JOptionPane
-import javax.swing.JPanel
-import javax.swing.UIManager
+import java.awt.Dimension
+import java.io.IOException
+import java.net.URL
+import javax.swing.*
 import kotlin.system.exitProcess
+
 
 class Home : JFrame() {
     var mainPane: JPanel = JPanel()
@@ -24,14 +25,23 @@ class Home : JFrame() {
                 "Oh no! There was an error :( \n" +
                         "Error: ${ex.message}",
                 "Error",
-                JOptionPane.ERROR_MESSAGE)
+                JOptionPane.ERROR_MESSAGE
+            )
             exitProcess(0)
         }
     }
 
     private fun buildUi() {
         // TODO("Implement syntax highlight")
+        val editorPane = JEditorPane()
+        editorPane.isEditable = true
 
+        val editorScrollPane = JScrollPane(editorPane)
+        editorScrollPane.verticalScrollBarPolicy = JScrollPane.VERTICAL_SCROLLBAR_ALWAYS
+        editorScrollPane.preferredSize = Dimension(250, 145)
+        editorScrollPane.minimumSize = Dimension(10, 10)
+
+        mainPane.add(editorScrollPane)
     }
 
     private fun setFrameConfigurations() {
