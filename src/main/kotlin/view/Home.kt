@@ -3,6 +3,7 @@ package view
 import FileManager
 import com.formdev.flatlaf.FlatDarculaLaf
 import java.awt.Dimension
+import java.awt.event.ActionEvent
 import java.awt.event.WindowAdapter
 import java.awt.event.WindowEvent
 import javax.swing.*
@@ -83,36 +84,39 @@ class Home : JFrame() {
     private fun createMenuBar() {
         // TODO("Add basic options and a run button")
         val menuBar = JMenuBar()
-
         val file = JMenu("File")
 
-        val newFile = JMenuItem("New")
-        newFile.addActionListener {
-            editorManager.newFile()
-        }
-
-        val openFile = JMenuItem("Open file")
-        FileManager.menuItem = openFile
-        openFile.addActionListener {
-            editorManager.openFile()
-        }
-
-        val saveFile = JMenuItem("Save file")
-        saveFile.addActionListener {
-            editorManager.saveFile()
-        }
-
-        val exit = JMenuItem("Exit")
-        exit.addActionListener {
-            editorManager.closeFile()
-        }
-
-        file.add(newFile)
-        file.add(openFile)
-        file.add(saveFile)
-        file.add(exit)
+        newMenuItem("New", { editorManager.newFile() }, file)
+        newMenuItem("Open file", { editorManager.openFile() }, file)
+        newMenuItem("Save file", { editorManager.saveFile() }, file)
+        newMenuItem("Exit", { editorManager.closeFile() }, file)
 
         menuBar.add(file)
+
+        val toggleAction: Action = object : AbstractAction("Start") {
+            override fun actionPerformed(e: ActionEvent) {
+                val button = e.source as AbstractButton
+                if (button.isSelected) {
+                    button.text = "Stop"
+                    // Start the action here
+                } else {
+                    button.text = "Start"
+                    // Stop the action here
+                }
+            }
+        }
+
+        menuBar.add(JToggleButton(toggleAction))
         jMenuBar = menuBar
+    }
+
+    fun newMenuItem(label: String, action: () -> Unit, parent: JMenu) {
+        val exit = JMenuItem(label)
+
+        exit.addActionListener {
+            action()
+        }
+
+        parent.add(exit)
     }
 }
