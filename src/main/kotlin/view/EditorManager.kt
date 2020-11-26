@@ -10,24 +10,15 @@ class EditorManager(private val frame: JFrame, private val editorPane: JEditorPa
     private var savedText = ""
 
     fun newFile() {
-        if (isPreviousTextSaved()) {
+        ifIsSavedElseSave {
             setEditorContent("")
-        } else {
-            promptFileWarning {
-                setEditorContent("")
-            }
         }
     }
     
     fun openFile() {
-        if (isPreviousTextSaved()) {
+        ifIsSavedElseSave {
             FileManager.openFile()
             setEditorContent(FileManager.getFileContent())
-        } else {
-            promptFileWarning {
-                FileManager.openFile()
-                setEditorContent(FileManager.getFileContent())
-            }
         }
     }
     
@@ -39,12 +30,8 @@ class EditorManager(private val frame: JFrame, private val editorPane: JEditorPa
     }
 
     fun closeFile() {
-        if (isPreviousTextSaved()) {
+        ifIsSavedElseSave {
             exitProcess(0)
-        } else {
-            promptFileWarning {
-                exitProcess(0)
-            }
         }
     }
 
@@ -77,6 +64,16 @@ class EditorManager(private val frame: JFrame, private val editorPane: JEditorPa
             0 -> { saveFile() }
         }
         callback()
+    }
+
+    private fun ifIsSavedElseSave(callback: () -> Unit) {
+        if (isPreviousTextSaved()) {
+            callback()
+        } else {
+            promptFileWarning {
+                callback()
+            }
+        }
     }
 
     private fun isPreviousTextSaved(): Boolean {
