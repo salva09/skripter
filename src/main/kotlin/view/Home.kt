@@ -34,6 +34,8 @@ class Home : JFrame() {
     private fun buildUi() {
         // TODO("Implement syntax highlight")
         val editorPane = JEditorPane()
+        val outputPane = JPanel()
+
         editorPane.isEditable = true
 
         val editorScrollPane = JScrollPane(editorPane)
@@ -41,7 +43,8 @@ class Home : JFrame() {
         editorScrollPane.preferredSize = Dimension(500, 500)
         editorScrollPane.minimumSize = Dimension(10, 10)
 
-        mainPane.add(editorScrollPane)
+        val splitPane = JSplitPane(JSplitPane.VERTICAL_SPLIT, editorScrollPane, outputPane)
+        mainPane.add(splitPane)
     }
 
     private fun setFrameConfigurations() {
