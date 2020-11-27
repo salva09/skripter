@@ -34,7 +34,8 @@ class EditorManager(
     
     fun saveFile(): Boolean {
         return try {
-            FileManager.saveFile(editorPane.text)
+            if (!FileManager.isAFileOpen()) FileManager.saveFileAs(editorPane.text)
+            else FileManager.saveFile(editorPane.text)
             savedText = editorPane.text
             true
         } catch (ex: Exception) {
@@ -49,7 +50,6 @@ class EditorManager(
     }
 
     fun runScript() {
-        // TODO("Bug: Writing the script at the start without saving and running can't save it")
         if (!isPreviousTextSaved()) {
             promptFileWarning {}
         }

@@ -89,14 +89,16 @@ object Home : JFrame() {
     }
 
     private fun createMenuBar() {
-        // TODO("Add basic options and a run button")
         val menuBar = JMenuBar()
         val file = JMenu("File")
 
-        newMenuItem("New", { editorManager.newFile() }, file)
+        // We need one menu item to give to the file manager
+        val item = newMenuItem("New", { editorManager.newFile() }, file)
         newMenuItem("Open file", { editorManager.openFile() }, file)
         newMenuItem("Save file", { editorManager.saveFile() }, file)
         newMenuItem("Exit", { editorManager.closeFile() }, file)
+
+        FileManager.menuItem = item
 
         menuBar.add(file)
 
@@ -111,14 +113,15 @@ object Home : JFrame() {
         jMenuBar = menuBar
     }
 
-    private fun newMenuItem(label: String, action: () -> Unit, parent: JMenu) {
-        val exit = JMenuItem(label)
+    private fun newMenuItem(label: String, action: () -> Unit, parent: JMenu): JMenuItem {
+        val item = JMenuItem(label)
 
-        exit.addActionListener {
+        item.addActionListener {
             action()
         }
 
-        parent.add(exit)
+        parent.add(item)
+        return item
     }
 
     fun clearOutput() {

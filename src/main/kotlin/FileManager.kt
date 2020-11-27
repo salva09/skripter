@@ -66,4 +66,8 @@ object FileManager {
             throw Exception("Menu item is not initialized")
         }
     }
+
+    fun isAFileOpen(): Boolean {
+        return file != null
+    }
 }
