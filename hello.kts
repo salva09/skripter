@@ -1,1 +1,2 @@
-println("Hello world");
+val name = "Salva"
+println("Hello $name");

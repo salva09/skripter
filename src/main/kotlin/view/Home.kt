@@ -1,12 +1,12 @@
 package view
 
 import com.formdev.flatlaf.FlatDarculaLaf
-import java.awt.Color
 import java.awt.Dimension
-import java.awt.Insets
-import java.awt.event.ActionEvent
 import java.awt.event.WindowAdapter
 import java.awt.event.WindowEvent
+import java.io.IOException
+import java.io.OutputStream
+import java.io.PrintStream
 import javax.swing.*
 import kotlin.system.exitProcess
 
@@ -14,13 +14,20 @@ import kotlin.system.exitProcess
 class Home : JFrame() {
     private lateinit var mainPane: JPanel
     private lateinit var editorPane: JEditorPane
-    private lateinit var outputPane: JEditorPane
+    private lateinit var outputPane: JTextArea
     private lateinit var editorManager: EditorManager
 
     init {
         setFrameLookAndFeel()
         buildUi()
         setFrameConfigurations()
+        redirectOutput()
+    }
+
+    private fun redirectOutput() {
+        val printStream = PrintStream(CustomOutputStream(outputPane))
+        System.setOut(printStream)
+        System.setErr(printStream)
     }
 
     private fun setFrameLookAndFeel() {
@@ -63,8 +70,8 @@ class Home : JFrame() {
     private fun createPanes() {
         // TODO("Implement syntax highlight")
         editorPane = JEditorPane()
-        outputPane = JEditorPane()
-        editorManager = EditorManager(this, editorPane, outputPane)
+        outputPane = JTextArea()
+        editorManager = EditorManager(this, editorPane)
 
         editorPane.isEditable = true
         outputPane.isEditable = false
@@ -94,24 +101,11 @@ class Home : JFrame() {
 
         menuBar.add(file)
 
-        val toggleAction: Action = object : AbstractAction() {
-            override fun actionPerformed(e: ActionEvent) {
-                val button = e.source as AbstractButton
-                if (button.isSelected) {
-                    button.text = "Stop"
-                    editorManager.runScript()
-                } else {
-                    button.text = "Run"
-                    editorManager.stopScript()
-                }
-            }
+        val runButton = JButton("Run")
+        runButton.addActionListener {
+            editorManager.runScript()
         }
 
-        val runButton = JToggleButton(toggleAction)
-        runButton.text = "Run"
-        //runButton.border = null  // looks really bad without borders
-
-        // Spacer
         menuBar.add(Box.createHorizontalGlue())
 
         menuBar.add(runButton)
@@ -126,5 +120,17 @@ class Home : JFrame() {
         }
 
         parent.add(exit)
+    }
+}
+
+class CustomOutputStream(private val textArea: JTextArea) : OutputStream() {
+    @Throws(IOException::class)
+    override fun write(b: Int) {
+        // Redirects data to the text area
+        textArea.text = textArea.text + b.toChar()
+        // Scrolls the text area to the end of data
+        textArea.caretPosition = textArea.document.length
+        // Keeps the textArea up to date
+        textArea.update(textArea.graphics)
     }
 }

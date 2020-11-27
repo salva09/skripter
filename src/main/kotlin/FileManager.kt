@@ -12,7 +12,6 @@ object FileManager {
         private set
 
     fun openFile(): Boolean {
-        checkMenuItem()
         fileChooser = JFileChooser()
         val result = fileChooser.showOpenDialog(menuItem)
 
@@ -33,7 +32,6 @@ object FileManager {
     }
 
     fun saveFile(modifiedText: String) {
-        checkMenuItem()
         if (file != null) {
             File(file!!.absolutePath).writeText(modifiedText)
             fileName = file!!.name
@@ -55,10 +53,12 @@ object FileManager {
         fileName = file!!.name
     }
 
-    fun new(): String {
-        file = null
-        fileName = ""
-        return ""
+    fun getFilePath(): String {
+        return if (file != null) {
+            file!!.absolutePath
+        } else {
+            ""
+        }
     }
 
     private fun checkMenuItem() {

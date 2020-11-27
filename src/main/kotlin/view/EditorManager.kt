@@ -1,15 +1,19 @@
 package view
 
-import javax.swing.JOptionPane
 import FileManager
+import Runner
+import java.io.IOException
+import java.io.OutputStream
+import java.io.PrintStream
 import javax.swing.JEditorPane
 import javax.swing.JFrame
+import javax.swing.JOptionPane
 import kotlin.system.exitProcess
+
 
 class EditorManager(
     private val frame: JFrame,
     private val editorPane: JEditorPane,
-    private val outputPane: JEditorPane
 ) {
     private var savedText = ""
 
@@ -21,8 +25,10 @@ class EditorManager(
     
     fun openFile() {
         ifIsSavedElseSave {
-            FileManager.openFile()
-            setEditorContent(FileManager.getFileContent())
+            try {
+                FileManager.openFile()
+                setEditorContent(FileManager.getFileContent())
+            } catch (ex: Exception) {}
         }
     }
     
@@ -43,13 +49,12 @@ class EditorManager(
     }
 
     fun runScript() {
-        ifIsSavedElseSave {
-            Runner.run(editorPane.text)
+        if (!isPreviousTextSaved()) {
+            promptFileWarning {  }
         }
-    }
-
-    fun stopScript() {
-
+        if (isPreviousTextSaved()) {
+            Runner.run(FileManager.getFilePath())
+        }
     }
 
     private fun setEditorContent(newContent: String) {
@@ -101,8 +106,12 @@ class EditorManager(
         2 -> Interrupts the function and callback is not called
         */
         when (result) {
-            2 -> { return }
-            0 -> { if (!saveFile()) return }
+            2 -> {
+                return
+            }
+            0 -> {
+                if (!saveFile()) return
+            }
         }
         callback()
     }
