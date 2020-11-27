@@ -9,21 +9,22 @@ object Runner {
         // Runs the command in other thread so we can edit while is running
         // also kotlin scripts right now are kinda slow, would be nice to try to improve them
         val thread = Thread {
+            // We want to clear the previous output, don't we
             Home.clearOutput()
-            val p = Runtime.getRuntime().exec("kotlinc -script $script")
-            inheritIO(p.inputStream, System.out)
-            inheritIO(p.errorStream, System.err)
-        }
-        thread.start()
+            val process = Runtime.getRuntime().exec("kotlinc -script $script")
+            inheritIO(process.inputStream, System.out)
+            inheritIO(process.errorStream, System.err)
+
+            // When the process has finished, print the exit code
+            println("Exit code: ${process.waitFor()}")
+        }.start()
     }
 
     private fun inheritIO(src: InputStream, dest: PrintStream) {
-        Thread {
-            val sc = Scanner(src)
-            while (sc.hasNextLine()) {
-                dest.println(sc.nextLine())
-            }
-        }.start()
+        val sc = Scanner(src)
+        while (sc.hasNextLine()) {
+            dest.println(sc.nextLine())
+        }
     }
 
 }
