@@ -6,9 +6,9 @@ A GUI tool that allows users to enter a script, execute it, and see its output s
 - [x] Write the script to a file and run it using `/usr/bin/env swift foo.swift`, or `kotlinc -script foo.kts` respectively.
 - [x] Assume the script might run for a long time.
 - [x] Show live output of the script as it executes.
-- [ ] Show errors from the execution/if the script couldn’t be interpreted.
+- [x] Show errors from the execution/if the script couldn’t be interpreted.
 - [ ] Show an indication whether the script is currently running.
-- [ ] Show an indication whether the exit code of the last run was non-zero.
+- [x] Show an indication whether the exit code of the last run was non-zero.
 
 ## Implement at least one of the following:
 - [ ] Highlight language keywords in a color different from the rest of the code. You may assume that keywords are not valid in other contexts, e.g. as enum member names. You may restrict yourself to 10 keywords, if more could be added easily.
