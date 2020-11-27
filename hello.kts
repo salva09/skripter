@@ -1,2 +1,7 @@
 val name = "Salva"
-println("Hello $name");
+
+if (name != "Salva") {
+    println("Hello $name")
+} else {
+    println("Hi Salva")
+}

@@ -53,6 +53,7 @@ class EditorManager(
             promptFileWarning {  }
         }
         if (isPreviousTextSaved()) {
+
             Runner.run(FileManager.getFilePath())
         }
     }

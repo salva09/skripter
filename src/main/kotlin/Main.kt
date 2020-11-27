@@ -5,6 +5,6 @@ import javax.swing.SwingUtilities
 fun main() {
     FlatLightLaf.install()
     SwingUtilities.invokeLater {
-        Home().isVisible = true
+        Home.isVisible = true
     }
 }

@@ -11,7 +11,7 @@ import javax.swing.*
 import kotlin.system.exitProcess
 
 
-class Home : JFrame() {
+object Home : JFrame() {
     private lateinit var mainPane: JPanel
     private lateinit var editorPane: JEditorPane
     private lateinit var outputPane: JTextArea
@@ -120,6 +120,10 @@ class Home : JFrame() {
         }
 
         parent.add(exit)
+    }
+
+    fun clearOutput() {
+        outputPane.text = ""
     }
 }
 
