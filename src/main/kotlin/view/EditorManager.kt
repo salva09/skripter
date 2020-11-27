@@ -49,8 +49,9 @@ class EditorManager(
     }
 
     fun runScript() {
+        // TODO("Bug: Writing the script at the start without saving and running can't save it")
         if (!isPreviousTextSaved()) {
-            promptFileWarning {  }
+            promptFileWarning {}
         }
         if (isPreviousTextSaved()) {
             Runner.run(FileManager.getFilePath())

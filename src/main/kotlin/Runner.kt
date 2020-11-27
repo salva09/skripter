@@ -15,7 +15,6 @@ object Runner {
             inheritIO(process.errorStream, System.err)
 
             // When the process has finished, print the exit code
-
             val exitCode = process.waitFor()
             if (exitCode == 0) {
                 println("Yeah, exit code 0. :)")
