@@ -1,4 +1,5 @@
-import view.Home
+package me.salva
+
 import java.io.InputStream
 import java.io.PrintStream
 import java.util.*
@@ -8,7 +9,7 @@ object Runner {
         // Runs the command in other thread so we can edit while is running
         // also kotlin scripts right now are kinda slow, would be nice to try to improve them
         Thread {
-            // We want to clear the previous output, don't we
+            // We want to clear the previous output, don't we?
             Home.clearOutput()
             val process = Runtime.getRuntime().exec("kotlinc -script $script")
             inheritIO(process.inputStream, System.out)

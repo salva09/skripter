@@ -1,4 +1,4 @@
-package view
+package me.salva
 
 import com.formdev.flatlaf.FlatDarculaLaf
 import java.awt.Dimension

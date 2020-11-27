@@ -1,15 +1,9 @@
-package view
+package me.salva
 
-import FileManager
-import Runner
-import java.io.IOException
-import java.io.OutputStream
-import java.io.PrintStream
 import javax.swing.JEditorPane
 import javax.swing.JFrame
 import javax.swing.JOptionPane
 import kotlin.system.exitProcess
-
 
 class EditorManager(
     private val frame: JFrame,
@@ -74,9 +68,6 @@ class EditorManager(
     }
 
     private fun isPreviousTextSaved(): Boolean {
-        // TODO("Better implementation to validate if a text was saved")
-        // this implementation of comparing string may be bad at large code sources
-        // but this is for scripts so I hope it's okay
         if (editorPane.text == savedText) return true
         return false
     }
