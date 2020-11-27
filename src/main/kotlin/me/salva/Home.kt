@@ -2,6 +2,7 @@ package me.salva
 
 import com.formdev.flatlaf.FlatDarculaLaf
 import java.awt.Dimension
+import java.awt.GridLayout
 import java.awt.event.WindowAdapter
 import java.awt.event.WindowEvent
 import javax.swing.*
@@ -37,17 +38,20 @@ object Home : JFrame() {
     }
 
     private fun buildUi() {
+        // TODO("Implement syntax highlight")
         mainPane = JPanel()
-        createPanes()
+        createSplitPane()
         createMenuBar()
     }
 
     private fun setFrameConfigurations() {
         size = Dimension(510, 545)
-        isResizable = false
+        isResizable = true
         title = "Skripter"
+        mainPane.layout = GridLayout()
         contentPane = mainPane
         setLocationRelativeTo(null)
+        homeManager = HomeManager(this, editorPane)
 
         defaultCloseOperation = DO_NOTHING_ON_CLOSE
 
@@ -58,19 +62,17 @@ object Home : JFrame() {
         })
     }
 
-    private fun createPanes() {
-        // TODO("Implement syntax highlight")
+    private fun createSplitPane() {
         editorPane = JEditorPane()
-        outputPane = JTextArea()
-        homeManager = HomeManager(this, editorPane)
-
         editorPane.isEditable = true
-        outputPane.isEditable = false
 
         val editorScrollPane = JScrollPane(editorPane)
         editorScrollPane.verticalScrollBarPolicy = JScrollPane.VERTICAL_SCROLLBAR_ALWAYS
         editorScrollPane.preferredSize = Dimension(500, 450)
         editorScrollPane.minimumSize = Dimension(500, 100)
+
+        outputPane = JTextArea()
+        outputPane.isEditable = false
 
         val outputScrollPane = JScrollPane(outputPane)
         outputScrollPane.verticalScrollBarPolicy = JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED
