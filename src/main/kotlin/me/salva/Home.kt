@@ -4,9 +4,6 @@ import com.formdev.flatlaf.FlatDarculaLaf
 import java.awt.Dimension
 import java.awt.event.WindowAdapter
 import java.awt.event.WindowEvent
-import java.io.IOException
-import java.io.OutputStream
-import java.io.PrintStream
 import javax.swing.*
 import kotlin.system.exitProcess
 
@@ -14,19 +11,14 @@ object Home : JFrame() {
     private lateinit var mainPane: JPanel
     private lateinit var editorPane: JEditorPane
     private lateinit var outputPane: JTextArea
-    private lateinit var editorManager: EditorManager
+    private lateinit var homeManager: HomeManager
+    private lateinit var runButton: JButton
 
     init {
         setFrameLookAndFeel()
         buildUi()
         setFrameConfigurations()
-        redirectOutput()
-    }
-
-    private fun redirectOutput() {
-        val printStream = PrintStream(CustomOutputStream(outputPane))
-        System.setOut(printStream)
-        System.setErr(printStream)
+        redirectOutput(outputPane)
     }
 
     private fun setFrameLookAndFeel() {
@@ -61,7 +53,7 @@ object Home : JFrame() {
 
         this.addWindowListener(object : WindowAdapter() {
             override fun windowClosing(event: WindowEvent) {
-                editorManager.closeFile()
+                homeManager.closeFile()
             }
         })
     }
@@ -70,7 +62,7 @@ object Home : JFrame() {
         // TODO("Implement syntax highlight")
         editorPane = JEditorPane()
         outputPane = JTextArea()
-        editorManager = EditorManager(this, editorPane)
+        homeManager = HomeManager(this, editorPane)
 
         editorPane.isEditable = true
         outputPane.isEditable = false
@@ -93,21 +85,20 @@ object Home : JFrame() {
         val file = JMenu("File")
 
         // We need one menu item to give to the file manager
-        val item = newMenuItem("New", { editorManager.newFile() }, file)
-        newMenuItem("Open file", { editorManager.openFile() }, file)
-        newMenuItem("Save file", { editorManager.saveFile() }, file)
-        newMenuItem("Exit", { editorManager.closeFile() }, file)
+        val item = newMenuItem("New", { homeManager.newFile() }, file)
+        newMenuItem("Open file", { homeManager.openFile() }, file)
+        newMenuItem("Save file", { homeManager.saveFile() }, file)
+        newMenuItem("Exit", { homeManager.closeFile() }, file)
 
         FileManager.menuItem = item
-
         menuBar.add(file)
 
-        val runButton = JButton("Run")
-        runButton.addActionListener {
-            editorManager.runScript()
-        }
-
         menuBar.add(Box.createHorizontalGlue())
+
+        runButton = JButton("Run")
+        runButton.addActionListener {
+            homeManager.runScript()
+        }
 
         menuBar.add(runButton)
         jMenuBar = menuBar
@@ -126,17 +117,5 @@ object Home : JFrame() {
 
     fun clearOutput() {
         outputPane.text = ""
-    }
-}
-
-class CustomOutputStream(private val textArea: JTextArea) : OutputStream() {
-    @Throws(IOException::class)
-    override fun write(b: Int) {
-        // Redirects data to the text area
-        textArea.text = textArea.text + b.toChar()
-        // Scrolls the text area to the end of data
-        textArea.caretPosition = textArea.document.length
-        // Keeps the textArea up to date
-        textArea.update(textArea.graphics)
     }
 }

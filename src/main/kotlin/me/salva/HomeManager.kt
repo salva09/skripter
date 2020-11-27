@@ -5,7 +5,7 @@ import javax.swing.JFrame
 import javax.swing.JOptionPane
 import kotlin.system.exitProcess
 
-class EditorManager(
+class HomeManager(
     private val frame: JFrame,
     private val editorPane: JEditorPane,
 ) {
@@ -50,6 +50,10 @@ class EditorManager(
         if (isPreviousTextSaved()) {
             Runner.run(FileManager.getFilePath())
         }
+    }
+
+    fun stopScript() {
+        Runner.stop()
     }
 
     private fun setEditorContent(newContent: String) {

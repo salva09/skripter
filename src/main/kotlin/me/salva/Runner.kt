@@ -5,12 +5,15 @@ import java.io.PrintStream
 import java.util.*
 
 object Runner {
+    private lateinit var scriptThread: Thread
+
     fun run(script: String) {
         // Runs the command in other thread so we can edit while is running
-        // also kotlin scripts right now are kinda slow, would be nice to try to improve them
-        Thread {
+        // also kotlin scripts right now are kinda slow
+        scriptThread = Thread {
             // We want to clear the previous output, don't we?
             Home.clearOutput()
+
             val process = Runtime.getRuntime().exec("kotlinc -script $script")
             inheritIO(process.inputStream, System.out)
             inheritIO(process.errorStream, System.err)
@@ -22,7 +25,13 @@ object Runner {
             } else {
                 println("Oh, non-zero exit code: $exitCode. :(")
             }
-        }.start()
+        }
+        scriptThread.start()
+    }
+
+    fun stop() {
+        scriptThread.interrupt()
+        println("Interrupted. x_x")
     }
 
     private fun inheritIO(src: InputStream, dest: PrintStream) {
