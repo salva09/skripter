@@ -1,7 +1,2 @@
-val name = "Salva"
-
-if (name != "Salva") {
-    println("Hello $name")
-} else {
-    println("Hi Salva")
-}
+println("main: I'm tired of waiting!")
+println("main: Now I can quit.")

@@ -10,7 +10,6 @@ import java.io.PrintStream
 import javax.swing.*
 import kotlin.system.exitProcess
 
-
 object Home : JFrame() {
     private lateinit var mainPane: JPanel
     private lateinit var editorPane: JEditorPane

@@ -53,7 +53,6 @@ class EditorManager(
             promptFileWarning {  }
         }
         if (isPreviousTextSaved()) {
-
             Runner.run(FileManager.getFilePath())
         }
     }
@@ -83,9 +82,9 @@ class EditorManager(
 
     private fun promptFileWarning(callback: () -> Unit = {}) {
         val options = arrayOf(
-            "Yes",
-            "No",
-            "Cancel"
+            "Yes, please",
+            "No, thanks",
+            "Go back"
         )
 
         val result = JOptionPane.showOptionDialog(
