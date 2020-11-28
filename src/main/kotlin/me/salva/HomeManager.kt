@@ -21,7 +21,7 @@ object HomeManager {
             setEditorContent("")
         }
     }
-    
+
     fun openFile() {
         ifIsSavedElseSave {
             try {
@@ -31,7 +31,7 @@ object HomeManager {
             } catch (ex: Exception) {}
         }
     }
-    
+
     fun saveFile(): Boolean {
         return try {
             if (!FileManager.isAFileOpen()) FileManager.saveFileAs(editorPane.text)
@@ -104,18 +104,18 @@ object HomeManager {
     }
 
     private fun showErrorWhenNoInterpreter() {
-        val message =  when (FileManager.getFileExtension()) {
+        val message = when (FileManager.getFileExtension()) {
             "kts" -> {
                 "To run Kotlin scripts I need to be able to access the Kotlin cli compiler.\n" +
-                        "Please make sure that you have it installed and \"kotlinc -v\" returns 0."
+                    "Please make sure that you have it installed and \"kotlinc -v\" returns 0."
             }
             "swift" -> {
                 "To run Swift scripts I need to be able to access the Swift cli compiler.\n" +
-                        "Please make sure that you have it installed and \"swift -version\" returns 0."
+                    "Please make sure that you have it installed and \"swift -version\" returns 0."
             }
             "py" -> {
                 "To run Python scripts I need to be able to access the Python interpreter.\n" +
-                        "Please make sure that you have it installed and \"python -V\" returns 0."
+                    "Please make sure that you have it installed and \"python -V\" returns 0."
             }
             else -> {
                 "I'm sorry, but this script is currently not supported."
@@ -130,7 +130,7 @@ object HomeManager {
     }
 
     private fun hasInterpreterInstalled(): Boolean {
-        val testCommand =  when (FileManager.getFileExtension()) {
+        val testCommand = when (FileManager.getFileExtension()) {
             "kts" -> {
                 "kotlinc -version"
             }
@@ -141,7 +141,7 @@ object HomeManager {
                 "/usr/bin/env python -V"
             }
             else -> {
-                return false
+                "false"
             }
         }
         // If kotlin is the selected script, this will take a moment, the kotlin interpreter takes a while
@@ -185,7 +185,7 @@ object HomeManager {
         val result = JOptionPane.showOptionDialog(
             frame,
             "It looks like your actual code is no saved.\n " +
-                    "Would you like to save it?",
+                "Would you like to save it?",
             "Warning: File is not saved",
             JOptionPane.YES_NO_CANCEL_OPTION,
             JOptionPane.WARNING_MESSAGE,

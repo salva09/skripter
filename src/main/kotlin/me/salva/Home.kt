@@ -7,6 +7,11 @@ import java.awt.event.WindowEvent
 import javax.swing.*
 import kotlin.system.exitProcess
 
+private const val FRAME_HEIGHT = 600
+private const val FRAME_WIDTH = 550
+private const val MIN_PANE_HEIGHT = 100
+private const val MIN_PANE_WIDTH = 500
+
 object Home : JFrame() {
     private lateinit var mainPane: JPanel
     private lateinit var editorPane: JEditorPane
@@ -28,7 +33,7 @@ object Home : JFrame() {
             JOptionPane.showMessageDialog(
                 this,
                 "Oh no! There was an error :( \n" +
-                        "Error: ${ex.message}",
+                    "Error: ${ex.message}",
                 "Error",
                 JOptionPane.ERROR_MESSAGE
             )
@@ -39,7 +44,7 @@ object Home : JFrame() {
     private fun buildUi() {
         mainPane = JPanel()
         mainPane.layout = GridBagLayout()
-        
+
         createMenuBar()
 
         val c = GridBagConstraints()
@@ -88,7 +93,7 @@ object Home : JFrame() {
     }
 
     private fun setFrameConfigurations() {
-        size = Dimension(600, 550)
+        size = Dimension(FRAME_WIDTH, FRAME_HEIGHT)
         isResizable = true
         title = "Skripter"
         setLocationRelativeTo(null)
@@ -112,7 +117,7 @@ object Home : JFrame() {
         val editorScrollPane = JScrollPane(editorPane)
         editorScrollPane.verticalScrollBarPolicy = JScrollPane.VERTICAL_SCROLLBAR_ALWAYS
         editorScrollPane.preferredSize = Dimension(500, 500)
-        editorScrollPane.minimumSize = Dimension(500, 100)
+        editorScrollPane.minimumSize = Dimension(MIN_PANE_WIDTH, MIN_PANE_HEIGHT)
 
         outputPane = JTextArea()
         outputPane.isEditable = false
@@ -121,7 +126,7 @@ object Home : JFrame() {
         outputScrollPane.verticalScrollBarPolicy = JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED
         // The output pane should be smaller but it doesn't want
         outputScrollPane.preferredSize = Dimension(500, 100)
-        outputScrollPane.minimumSize = Dimension(500, 100)
+        outputScrollPane.minimumSize = Dimension(MIN_PANE_WIDTH, MIN_PANE_HEIGHT)
 
         return JSplitPane(JSplitPane.VERTICAL_SPLIT, editorScrollPane, outputScrollPane)
     }
@@ -139,6 +144,10 @@ object Home : JFrame() {
 
         FileManager.menuItem = item
         menuBar.add(file)
+
+        val console = JMenu("Console")
+        newMenuItem("Clear", { HomeManager.cleanConsole() }, console)
+        menuBar.add(console)
 
         menuBar.add(Box.createHorizontalGlue())
 
