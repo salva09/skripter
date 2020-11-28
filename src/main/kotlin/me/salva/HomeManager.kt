@@ -44,6 +44,12 @@ object HomeManager {
         }
     }
 
+    fun saveFilesAs() {
+        FileManager.saveFileAs(editorPane.text)
+        savedText = editorPane.text
+        frame.title = "Skripter: ${FileManager.fileName}"
+    }
+
     fun closeFile() {
         ifIsSavedElseSave {
             exitProcess(0)
@@ -91,6 +97,10 @@ object HomeManager {
     fun changeLabelToIdle(exitCode: Int) {
         if (exitCode == 0) Home.goodLabel()
         else Home.badLabel(exitCode)
+    }
+
+    fun cleanConsole() {
+        editorPane.text = ""
     }
 
     private fun showErrorWhenNoInterpreter() {

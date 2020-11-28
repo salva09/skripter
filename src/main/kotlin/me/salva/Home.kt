@@ -132,8 +132,9 @@ object Home : JFrame() {
 
         // We need one menu item to give to the file manager
         val item = newMenuItem("New", { HomeManager.newFile() }, file)
-        newMenuItem("Open file", { HomeManager.openFile() }, file)
-        newMenuItem("Save file", { HomeManager.saveFile() }, file)
+        newMenuItem("Open", { HomeManager.openFile() }, file)
+        newMenuItem("Save", { HomeManager.saveFile() }, file)
+        newMenuItem("Save as", { HomeManager.saveFilesAs() }, file)
         newMenuItem("Exit", { HomeManager.closeFile() }, file)
 
         FileManager.menuItem = item
