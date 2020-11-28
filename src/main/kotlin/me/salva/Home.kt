@@ -23,9 +23,8 @@ object Home : JFrame() {
     }
 
     private fun checkIfKotlinIsInstalled() {
-        //TODO("Not yet implemented")
         val process = Runtime.getRuntime().exec("kotlinc -version")
-        if (process.waitFor() == 0) {
+        if (process.waitFor() != 0) {
             val message = "<html>" +
                     "This program uses the kotlin compiler, but it looks like " +
                     "you have not it installed. <br>" +
