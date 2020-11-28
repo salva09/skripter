@@ -134,6 +134,8 @@ object HomeManager {
                 return false
             }
         }
+        // If kotlin is the selected script, this will take a moment, the kotlin interpreter takes a while
+        // before start executing the scripts/commands
         val process = Runtime.getRuntime().exec(testCommand)
         if (process.waitFor() == 0) return true
         return false
