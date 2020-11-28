@@ -17,6 +17,7 @@ object HomeManager {
 
     fun newFile() {
         ifIsSavedElseSave {
+            frame.title = "Skripter"
             setEditorContent("")
         }
     }
@@ -25,6 +26,7 @@ object HomeManager {
         ifIsSavedElseSave {
             try {
                 FileManager.openFile()
+                frame.title = "Skripter: ${FileManager.fileName}"
                 setEditorContent(FileManager.getFileContent())
             } catch (ex: Exception) {}
         }
@@ -35,6 +37,7 @@ object HomeManager {
             if (!FileManager.isAFileOpen()) FileManager.saveFileAs(editorPane.text)
             else FileManager.saveFile(editorPane.text)
             savedText = editorPane.text
+            frame.title = "Skripter: ${FileManager.fileName}"
             true
         } catch (ex: Exception) {
             false
