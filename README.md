@@ -7,7 +7,7 @@ A GUI tool that allows users to enter a script, execute it, and see its output s
 - [x] Assume the script might run for a long time.
 - [x] Show live output of the script as it executes.
 - [x] Show errors from the execution/if the script couldn’t be interpreted.
-- [ ] Show an indication whether the script is currently running.
+- [x] Show an indication whether the script is currently running.
 - [x] Show an indication whether the exit code of the last run was non-zero.
 
 ## Implement at least one of the following:
