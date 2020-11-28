@@ -3,9 +3,20 @@ package me.salva
 import java.io.InputStream
 import java.io.PrintStream
 import java.util.*
+import kotlin.properties.Delegates
 
 object Runner {
     private lateinit var scriptThread: Thread
+    private var exitCode = 0
+    private var isRunning: Boolean by Delegates.observable(false) { _, _, newValue ->
+        run {
+            if (newValue) {
+                HomeManager.changeLabelToRunning()
+            } else {
+                HomeManager.changeLabelToIdle(exitCode)
+            }
+        }
+    }
 
     fun run(script: String) {
         // Runs the command in other thread so we can edit while is running
@@ -14,17 +25,13 @@ object Runner {
             // We want to clear the previous output, don't we?
             Home.clearOutput()
 
+            isRunning = true
             val process = Runtime.getRuntime().exec("kotlinc -script $script")
             inheritIO(process.inputStream, System.out)
             inheritIO(process.errorStream, System.err)
 
-            // When the process has finished, print the exit code
-            val exitCode = process.waitFor()
-            if (exitCode == 0) {
-                println("Yeah, exit code 0. :)")
-            } else {
-                println("Oh, non-zero exit code: $exitCode. :(")
-            }
+            exitCode = process.waitFor()
+            isRunning = false
         }
         scriptThread.start()
     }

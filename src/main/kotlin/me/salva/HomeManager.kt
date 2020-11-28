@@ -5,11 +5,15 @@ import javax.swing.JFrame
 import javax.swing.JOptionPane
 import kotlin.system.exitProcess
 
-class HomeManager(
-    private val frame: JFrame,
-    private val editorPane: JEditorPane,
-) {
+object HomeManager {
+    private lateinit var frame: JFrame
+    private lateinit var editorPane: JEditorPane
     private var savedText = ""
+
+    fun init(frame: JFrame, editorPane: JEditorPane) {
+        this.frame = frame
+        this.editorPane = editorPane
+    }
 
     fun newFile() {
         ifIsSavedElseSave {
@@ -110,5 +114,14 @@ class HomeManager(
             }
         }
         callback()
+    }
+
+    fun changeLabelToRunning() {
+        Home.runningLabel()
+    }
+
+    fun changeLabelToIdle(exitCode: Int) {
+        if (exitCode == 0) Home.goodLabel()
+        else Home.badLabel(exitCode)
     }
 }

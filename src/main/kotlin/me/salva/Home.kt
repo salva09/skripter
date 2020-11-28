@@ -1,8 +1,7 @@
 package me.salva
 
 import com.formdev.flatlaf.FlatDarculaLaf
-import java.awt.Dimension
-import java.awt.GridLayout
+import java.awt.*
 import java.awt.event.WindowAdapter
 import java.awt.event.WindowEvent
 import javax.swing.*
@@ -12,8 +11,8 @@ object Home : JFrame() {
     private lateinit var mainPane: JPanel
     private lateinit var editorPane: JEditorPane
     private lateinit var outputPane: JTextArea
-    private lateinit var homeManager: HomeManager
     private lateinit var runButton: JButton
+    private lateinit var running: JLabel
 
     init {
         setFrameLookAndFeel()
@@ -40,29 +39,73 @@ object Home : JFrame() {
     private fun buildUi() {
         // TODO("Implement syntax highlight")
         mainPane = JPanel()
-        createSplitPane()
+        mainPane.layout = GridBagLayout()
+        
         createMenuBar()
+
+        val c = GridBagConstraints()
+
+        /*
+        Expected layout
+        ______________________________
+        |File|Edit|Help|         |Run|
+        |____________________________|
+        |println("Hello")            |
+        |                            |
+        |                            |
+        |                            |
+        |                            |
+        |                            |
+        |                            |
+        |____________________________|
+        |Hello                       |
+        |                            |
+        |                            |
+        |____________________________|
+        Exit code: 0 *------* Progress
+         */
+
+        c.gridx = 0
+        c.gridy = 0
+        c.ipadx = 100
+        c.ipady = 310
+        c.gridwidth = 5
+        c.gridheight = 5
+        c.weightx = 100.0
+        c.weighty = 100.0
+        c.fill = GridBagConstraints.BOTH
+        mainPane.add(createSplitPane(), c)
+
+        c.gridx = 0
+        c.gridy = 10
+        c.ipadx = 1
+        c.ipady = 1
+        c.gridwidth = 1
+        c.gridheight = 1
+        c.weightx = 1.0
+        c.weighty = 1.0
+        c.fill = GridBagConstraints.BOTH
+        mainPane.add(createRunningLabel(), c)
     }
 
     private fun setFrameConfigurations() {
         size = Dimension(510, 545)
         isResizable = true
         title = "Skripter"
-        mainPane.layout = GridLayout()
-        contentPane = mainPane
         setLocationRelativeTo(null)
-        homeManager = HomeManager(this, editorPane)
+        contentPane = mainPane
+        HomeManager.init(this, editorPane)
 
         defaultCloseOperation = DO_NOTHING_ON_CLOSE
 
         this.addWindowListener(object : WindowAdapter() {
             override fun windowClosing(event: WindowEvent) {
-                homeManager.closeFile()
+                HomeManager.closeFile()
             }
         })
     }
 
-    private fun createSplitPane() {
+    private fun createSplitPane(): JSplitPane {
         editorPane = JEditorPane()
         editorPane.isEditable = true
 
@@ -76,10 +119,10 @@ object Home : JFrame() {
 
         val outputScrollPane = JScrollPane(outputPane)
         outputScrollPane.verticalScrollBarPolicy = JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED
+        outputScrollPane.preferredSize = Dimension(500, 100)
         outputScrollPane.minimumSize = Dimension(500, 100)
 
-        val splitPane = JSplitPane(JSplitPane.VERTICAL_SPLIT, editorScrollPane, outputScrollPane)
-        mainPane.add(splitPane)
+        return JSplitPane(JSplitPane.VERTICAL_SPLIT, editorScrollPane, outputScrollPane)
     }
 
     private fun createMenuBar() {
@@ -87,10 +130,10 @@ object Home : JFrame() {
         val file = JMenu("File")
 
         // We need one menu item to give to the file manager
-        val item = newMenuItem("New", { homeManager.newFile() }, file)
-        newMenuItem("Open file", { homeManager.openFile() }, file)
-        newMenuItem("Save file", { homeManager.saveFile() }, file)
-        newMenuItem("Exit", { homeManager.closeFile() }, file)
+        val item = newMenuItem("New", { HomeManager.newFile() }, file)
+        newMenuItem("Open file", { HomeManager.openFile() }, file)
+        newMenuItem("Save file", { HomeManager.saveFile() }, file)
+        newMenuItem("Exit", { HomeManager.closeFile() }, file)
 
         FileManager.menuItem = item
         menuBar.add(file)
@@ -99,11 +142,34 @@ object Home : JFrame() {
 
         runButton = JButton("Run")
         runButton.addActionListener {
-            homeManager.runScript()
+            HomeManager.runScript()
         }
 
         menuBar.add(runButton)
         jMenuBar = menuBar
+    }
+
+    private fun createRunningLabel(): JLabel {
+        running = JLabel()
+        running.maximumSize = Dimension(100, 10)
+        running.icon = ImageIcon(javaClass.getResource("/icons/good.png"))
+
+        return running
+    }
+
+    fun goodLabel() {
+        running.text = "Exit code: 0"
+        running.icon = ImageIcon(javaClass.getResource("/icons/good.png"))
+    }
+
+    fun runningLabel() {
+        running.text = "Running"
+        running.icon = ImageIcon(javaClass.getResource("/icons/loading.gif"))
+    }
+
+    fun badLabel(exitCode: Int) {
+        running.text = "Non-zero exit code: $exitCode"
+        running.icon = ImageIcon(javaClass.getResource("/icons/bad.png"))
     }
 
     private fun newMenuItem(label: String, action: () -> Unit, parent: JMenu): JMenuItem {
