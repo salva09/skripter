@@ -3,7 +3,6 @@ package me.salva
 import java.io.InputStream
 import java.io.PrintStream
 import java.util.*
-import kotlin.properties.Delegates
 
 object Runner {
     // For swift scripting this can be changed
