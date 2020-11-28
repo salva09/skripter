@@ -52,11 +52,30 @@ object HomeManager {
             promptFileWarning {}
         }
         if (isPreviousTextSaved()) {
-            Runner.run(FileManager.getFilePath())
+            if (!Runner.isProcessAlive()) {
+                Runner.run(FileManager.getFilePath())
+            } else {
+                val message = "The previous script is still running!"
+                val options = arrayOf(
+                    "Wait to finish",
+                    "Kill it >:)"
+                )
+                val result = JOptionPane.showOptionDialog(
+                    Home,
+                    message,
+                    "",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.INFORMATION_MESSAGE,
+                    null,
+                    options,
+                    null
+                )
+                if (result == 1) stopScript()
+            }
         }
     }
 
-    fun stopScript() {
+    private fun stopScript() {
         Runner.stop()
     }
 

@@ -7,18 +7,10 @@ import kotlin.properties.Delegates
 
 object Runner {
     // For swift scripting this can be changed
-    private const val scriptType = "kotlin"
     private lateinit var scriptThread: Thread
     private var exitCode = 0
-    private var isRunning: Boolean by Delegates.observable(false) { _, _, running ->
-        run {
-            if (running) {
-                HomeManager.changeLabelToRunning()
-            } else {
-                HomeManager.changeLabelToIdle(exitCode)
-            }
-        }
-    }
+    private var isAlive = false
+    private var process: Process? = null
 
     fun run(script: String) {
         // Runs the command in other thread so we can edit while is running
@@ -27,25 +19,41 @@ object Runner {
             // We want to clear the previous output, don't we?
             Home.clearOutput()
 
-            isRunning = true
-            val process = if (scriptType == "kotlin") {
-                Runtime.getRuntime().exec("kotlinc -script $script")
-            } else {
-                Runtime.getRuntime().exec("/usr/bin/env swift $script")
+            HomeManager.changeLabelToRunning()
+            isAlive = true
+            process = when (FileManager.getFileExtension()) {
+                "kts" -> {
+                    Runtime.getRuntime().exec("kotlinc -script $script")
+                }
+                "swift" -> {
+                    Runtime.getRuntime().exec("/usr/bin/env swift $script")
+                }
+                "py" -> {
+                    Runtime.getRuntime().exec("/usr/bin/env python $script")
+                }
+                else -> {
+                    // This will terminate the program immediately
+                    null
+                }
             }
 
-            inheritIO(process.inputStream, System.out)
-            inheritIO(process.errorStream, System.err)
+            inheritIO(process!!.inputStream, System.out)
+            inheritIO(process!!.errorStream, System.err)
 
-            exitCode = process.waitFor()
-            isRunning = false
+            exitCode = process!!.waitFor()
+            isAlive = false
+            HomeManager.changeLabelToIdle(exitCode)
         }
         scriptThread.start()
     }
 
     fun stop() {
-        scriptThread.interrupt()
-        println("Interrupted. x_x")
+        process!!.destroyForcibly()
+        println("I was killed. x_x")
+    }
+
+    fun isProcessAlive(): Boolean {
+        return isAlive
     }
 
     private fun inheritIO(src: InputStream, dest: PrintStream) {

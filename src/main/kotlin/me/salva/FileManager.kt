@@ -7,6 +7,7 @@ import javax.swing.JMenuItem
 import javax.swing.JOptionPane
 
 object FileManager {
+    private val supportedFiles = listOf("kts", "swift", "py")
     private lateinit var fileChooser: JFileChooser
     private var file: File? = null
     var menuItem: JMenuItem? = null
@@ -19,7 +20,7 @@ object FileManager {
 
         if (result != 0) throw IOException("No file open")
 
-        return if (!fileChooser.selectedFile.name.endsWith(".kts")) {
+        return if (!supportedFiles.contains(fileChooser.selectedFile.extension)) {
             JOptionPane.showMessageDialog(null, "File type not supported", "Error", JOptionPane.ERROR_MESSAGE)
             false
         } else {
@@ -56,17 +57,17 @@ object FileManager {
     }
 
     fun getFilePath(): String {
-        return if (file != null) {
-            file!!.absolutePath
-        } else {
-            ""
-        }
+        return if (file != null) file!!.absolutePath
+        else ""
+    }
+
+    fun getFileExtension(): String {
+        return if (file != null) file!!.extension
+        else ""
     }
 
     private fun checkMenuItem() {
-        if (menuItem == null) {
-            throw Exception("Menu item is not initialized")
-        }
+        if (menuItem == null) throw Exception("Menu item is not initialized")
     }
 
     fun isAFileOpen(): Boolean {
