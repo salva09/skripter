@@ -19,23 +19,26 @@ object Runner {
             // We want to clear the previous output, don't we?
             Home.clearOutput()
 
-            HomeManager.changeLabelToRunning()
-            isAlive = true
-            process = when (FileManager.getFileExtension()) {
+            val command: String? = when (FileManager.getFileExtension()) {
                 "kts" -> {
-                    Runtime.getRuntime().exec("kotlinc -script $script")
+                    "kotlinc -script $script"
                 }
                 "swift" -> {
-                    Runtime.getRuntime().exec("/usr/bin/env swift $script")
+                    "/usr/bin/env swift $script"
                 }
                 "py" -> {
-                    Runtime.getRuntime().exec("/usr/bin/env python $script")
+                    "/usr/bin/env python $script"
                 }
                 else -> {
                     // This will terminate the program immediately
                     null
                 }
             }
+
+            HomeManager.changeLabelToRunning()
+            isAlive = true
+
+            process = Runtime.getRuntime().exec(command!!)
 
             inheritIO(process!!.inputStream, System.out)
             inheritIO(process!!.errorStream, System.err)
