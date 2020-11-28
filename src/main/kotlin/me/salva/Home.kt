@@ -98,7 +98,7 @@ object Home : JFrame() {
         title = "Skripter"
         setLocationRelativeTo(null)
         contentPane = mainPane
-        HomeManager.init(this, editorPane)
+        HomeManager.init(this, editorPane, outputPane)
 
         defaultCloseOperation = DO_NOTHING_ON_CLOSE
 
@@ -165,6 +165,11 @@ object Home : JFrame() {
         running.maximumSize = Dimension(100, 10)
 
         return running
+    }
+
+    fun idleLabel() {
+        running.text = "Idle"
+        running.icon = null
     }
 
     fun goodLabel() {

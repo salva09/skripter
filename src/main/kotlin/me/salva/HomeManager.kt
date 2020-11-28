@@ -3,16 +3,19 @@ package me.salva
 import javax.swing.JEditorPane
 import javax.swing.JFrame
 import javax.swing.JOptionPane
+import javax.swing.JTextArea
 import kotlin.system.exitProcess
 
 object HomeManager {
     private lateinit var frame: JFrame
     private lateinit var editorPane: JEditorPane
+    private lateinit var outputPane: JTextArea
     private var savedText = ""
 
-    fun init(frame: JFrame, editorPane: JEditorPane) {
+    fun init(frame: JFrame, editorPane: JEditorPane, outputPane: JTextArea) {
         this.frame = frame
         this.editorPane = editorPane
+        this.outputPane = outputPane
     }
 
     fun newFile() {
@@ -100,7 +103,8 @@ object HomeManager {
     }
 
     fun cleanConsole() {
-        editorPane.text = ""
+        outputPane.text = ""
+        Home.idleLabel()
     }
 
     private fun showErrorWhenNoInterpreter() {
