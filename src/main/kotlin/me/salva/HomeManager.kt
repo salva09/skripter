@@ -55,13 +55,16 @@ object HomeManager {
             promptFileWarning {}
         }
         if (isPreviousTextSaved()) {
-            if (!Runner.isProcessAlive()) {
-                Runner.run(FileManager.getFilePath())
-            } else {
+            if (!hasInterpreterInstalled()) {
+                showErrorWhenNoInterpreter()
+                return
+            }
+
+            if (Runner.isProcessAlive()) {
                 val message = "The previous script is still running!"
                 val options = arrayOf(
                     "Wait to finish",
-                    "Kill it >:)"
+                    "Kill it"
                 )
                 val result = JOptionPane.showOptionDialog(
                     Home,
@@ -73,9 +76,67 @@ object HomeManager {
                     options,
                     null
                 )
-                if (result == 1) stopScript()
+                if (result == 0) return
+                else stopScript()
+            } else {
+                Runner.run(FileManager.getFilePath())
             }
         }
+    }
+
+    fun changeLabelToRunning() {
+        Home.runningLabel()
+    }
+
+    fun changeLabelToIdle(exitCode: Int) {
+        if (exitCode == 0) Home.goodLabel()
+        else Home.badLabel(exitCode)
+    }
+
+    private fun showErrorWhenNoInterpreter() {
+        val message =  when (FileManager.getFileExtension()) {
+            "kts" -> {
+                "To run Kotlin scripts I need to be able to access the Kotlin cli compiler.\n" +
+                        "Please make sure that you have it installed and \"kotlinc -v\" returns 0."
+            }
+            "swift" -> {
+                "To run Swift scripts I need to be able to access the Swift cli compiler.\n" +
+                        "Please make sure that you have it installed and \"swift -version\" returns 0."
+            }
+            "py" -> {
+                "To run Python scripts I need to be able to access the Python interpreter.\n" +
+                        "Please make sure that you have it installed and \"python -V\" returns 0."
+            }
+            else -> {
+                "I'm sorry, but this script is currently not supported."
+            }
+        }
+        JOptionPane.showMessageDialog(
+            Home,
+            message,
+            "Error",
+            JOptionPane.ERROR_MESSAGE
+        )
+    }
+
+    private fun hasInterpreterInstalled(): Boolean {
+        val testCommand =  when (FileManager.getFileExtension()) {
+            "kts" -> {
+                "kotlinc -version"
+            }
+            "swift" -> {
+                "/usr/bin/env swift -version"
+            }
+            "py" -> {
+                "/usr/bin/env python -V"
+            }
+            else -> {
+                return false
+            }
+        }
+        val process = Runtime.getRuntime().exec(testCommand)
+        if (process.waitFor() == 0) return true
+        return false
     }
 
     private fun stopScript() {
@@ -136,14 +197,5 @@ object HomeManager {
             }
         }
         callback()
-    }
-
-    fun changeLabelToRunning() {
-        Home.runningLabel()
-    }
-
-    fun changeLabelToIdle(exitCode: Int) {
-        if (exitCode == 0) Home.goodLabel()
-        else Home.badLabel(exitCode)
     }
 }

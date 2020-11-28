@@ -16,27 +16,9 @@ object Home : JFrame() {
 
     init {
         setFrameLookAndFeel()
-        checkIfKotlinIsInstalled()
         buildUi()
         setFrameConfigurations()
         redirectOutput(outputPane)
-    }
-
-    private fun checkIfKotlinIsInstalled() {
-        val process = Runtime.getRuntime().exec("kotlinc -version")
-        if (process.waitFor() != 0) {
-            val message = "<html>" +
-                    "This program uses the kotlin compiler, but it looks like " +
-                    "you have not it installed. <br>" +
-                    "Please be sure that the command \"kotlinc -version\" works or install the compiler." +
-                    "</html>"
-            JOptionPane.showMessageDialog(
-                this,
-                message,
-                "Compiler",
-                JOptionPane.WARNING_MESSAGE
-            )
-        }
     }
 
     private fun setFrameLookAndFeel() {
@@ -55,7 +37,6 @@ object Home : JFrame() {
     }
 
     private fun buildUi() {
-        // TODO("Implement syntax highlight")
         mainPane = JPanel()
         mainPane.layout = GridBagLayout()
         
@@ -124,12 +105,13 @@ object Home : JFrame() {
     }
 
     private fun createSplitPane(): JSplitPane {
+        // TODO("Implement syntax highlight")
         editorPane = JEditorPane()
         editorPane.isEditable = true
 
         val editorScrollPane = JScrollPane(editorPane)
         editorScrollPane.verticalScrollBarPolicy = JScrollPane.VERTICAL_SCROLLBAR_ALWAYS
-        editorScrollPane.preferredSize = Dimension(500, 450)
+        editorScrollPane.preferredSize = Dimension(500, 500)
         editorScrollPane.minimumSize = Dimension(500, 100)
 
         outputPane = JTextArea()
@@ -171,7 +153,6 @@ object Home : JFrame() {
     private fun createRunningLabel(): JLabel {
         running = JLabel("Idle")
         running.maximumSize = Dimension(100, 10)
-        running.icon = ImageIcon(javaClass.getResource("/icons/good.png"))
 
         return running
     }
