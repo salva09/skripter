@@ -10,9 +10,9 @@ object Runner {
     private const val scriptType = "kotlin"
     private lateinit var scriptThread: Thread
     private var exitCode = 0
-    private var isRunning: Boolean by Delegates.observable(false) { _, _, newValue ->
+    private var isRunning: Boolean by Delegates.observable(false) { _, _, running ->
         run {
-            if (newValue) {
+            if (running) {
                 HomeManager.changeLabelToRunning()
             } else {
                 HomeManager.changeLabelToIdle(exitCode)
