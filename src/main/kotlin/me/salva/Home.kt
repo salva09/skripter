@@ -16,9 +16,28 @@ object Home : JFrame() {
 
     init {
         setFrameLookAndFeel()
+        checkIfKotlinIsInstalled()
         buildUi()
         setFrameConfigurations()
         redirectOutput(outputPane)
+    }
+
+    private fun checkIfKotlinIsInstalled() {
+        //TODO("Not yet implemented")
+        val process = Runtime.getRuntime().exec("kotlinc -version")
+        if (process.waitFor() == 0) {
+            val message = "<html>" +
+                    "This program uses the kotlin compiler, but it looks like " +
+                    "you have not it installed. <br>" +
+                    "Please be sure that the command \"kotlinc -version\" works or install the compiler." +
+                    "</html>"
+            JOptionPane.showMessageDialog(
+                this,
+                message,
+                "Compiler",
+                JOptionPane.WARNING_MESSAGE
+            )
+        }
     }
 
     private fun setFrameLookAndFeel() {
@@ -119,6 +138,7 @@ object Home : JFrame() {
 
         val outputScrollPane = JScrollPane(outputPane)
         outputScrollPane.verticalScrollBarPolicy = JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED
+        // The output pane should be smaller but it doesn't want
         outputScrollPane.preferredSize = Dimension(500, 100)
         outputScrollPane.minimumSize = Dimension(500, 100)
 
