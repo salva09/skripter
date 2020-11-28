@@ -6,6 +6,8 @@ import java.util.*
 import kotlin.properties.Delegates
 
 object Runner {
+    // For swift scripting this can be changed
+    private const val scriptType = "kotlin"
     private lateinit var scriptThread: Thread
     private var exitCode = 0
     private var isRunning: Boolean by Delegates.observable(false) { _, _, newValue ->
@@ -26,7 +28,12 @@ object Runner {
             Home.clearOutput()
 
             isRunning = true
-            val process = Runtime.getRuntime().exec("kotlinc -script $script")
+            val process = if (scriptType == "kotlin") {
+                Runtime.getRuntime().exec("kotlinc -script $script")
+            } else {
+                Runtime.getRuntime().exec("/usr/bin/env swift $script")
+            }
+
             inheritIO(process.inputStream, System.out)
             inheritIO(process.errorStream, System.err)
 
