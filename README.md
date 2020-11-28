@@ -1,3 +1,6 @@
+[![](https://www.code-inspector.com/project/16627/score/svg)]()
+[![](https://www.code-inspector.com/project/16627/status/svg)]()
+
 # Skripter
 A GUI tool that allows users to enter a script, execute it, and see its output side-by-side
 
