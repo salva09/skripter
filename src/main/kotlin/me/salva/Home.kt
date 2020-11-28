@@ -107,7 +107,7 @@ object Home : JFrame() {
     }
 
     private fun setFrameConfigurations() {
-        size = Dimension(510, 545)
+        size = Dimension(600, 550)
         isResizable = true
         title = "Skripter"
         setLocationRelativeTo(null)
@@ -169,7 +169,7 @@ object Home : JFrame() {
     }
 
     private fun createRunningLabel(): JLabel {
-        running = JLabel()
+        running = JLabel("Idle")
         running.maximumSize = Dimension(100, 10)
         running.icon = ImageIcon(javaClass.getResource("/icons/good.png"))
 
