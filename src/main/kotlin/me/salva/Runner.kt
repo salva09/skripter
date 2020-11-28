@@ -32,7 +32,8 @@ object Runner {
     }
 
     fun stop() {
-        process!!.destroyForcibly()
+        process?.destroyForcibly()
+        process?.destroy()
         println("I was killed. x_x")
     }
 

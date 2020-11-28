@@ -1,6 +1,6 @@
 package me.salva
 
-import com.formdev.flatlaf.FlatDarculaLaf
+import com.formdev.flatlaf.FlatLightLaf
 import java.awt.*
 import java.awt.event.WindowAdapter
 import java.awt.event.WindowEvent
@@ -28,7 +28,9 @@ object Home : JFrame() {
 
     private fun setFrameLookAndFeel() {
         try {
-            UIManager.setLookAndFeel(FlatDarculaLaf())
+            // TODO("User can select the preferred theme")
+            // UIManager.setLookAndFeel(FlatDarkLaf())
+            UIManager.setLookAndFeel(FlatLightLaf())
         } catch (ex: Exception) {
             JOptionPane.showMessageDialog(
                 this,
