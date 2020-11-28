@@ -19,26 +19,10 @@ object Runner {
             // We want to clear the previous output, don't we?
             Home.clearOutput()
 
-            val command: String? = when (FileManager.getFileExtension()) {
-                "kts" -> {
-                    "kotlinc -script $script"
-                }
-                "swift" -> {
-                    "/usr/bin/env swift $script"
-                }
-                "py" -> {
-                    "/usr/bin/env python $script"
-                }
-                else -> {
-                    // This will terminate the program immediately
-                    null
-                }
-            }
-
             HomeManager.changeLabelToRunning()
             isAlive = true
 
-            process = Runtime.getRuntime().exec(command!!)
+            process = Runtime.getRuntime().exec(getCommand(script))
 
             inheritIO(process!!.inputStream, System.out)
             inheritIO(process!!.errorStream, System.err)
@@ -59,11 +43,27 @@ object Runner {
         return isAlive
     }
 
+    private fun getCommand(script: String): String {
+        return when (FileManager.getFileExtension()) {
+            "kts" -> {
+                "kotlinc -script $script"
+            }
+            "swift" -> {
+                "/usr/bin/env swift $script"
+            }
+            "py" -> {
+                "/usr/bin/env python $script"
+            }
+            else -> {
+                throw Exception("File not supported as script")
+            }
+        }
+    }
+
     private fun inheritIO(src: InputStream, dest: PrintStream) {
         val sc = Scanner(src)
         while (sc.hasNextLine()) {
             dest.println(sc.nextLine())
         }
     }
-
 }
