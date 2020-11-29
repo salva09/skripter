@@ -132,7 +132,7 @@ public class Home extends JFrame {
 
         menuBar.add(Box.createHorizontalGlue());
 
-        var runButton = new JButton("Run");
+        var runButton = new JButton(new ImageIcon(getClass().getResource("icons/play.png")));
         runButton.setBorder(null);
         runButton.setFocusPainted(false);
         runButton.addActionListener(e -> {
