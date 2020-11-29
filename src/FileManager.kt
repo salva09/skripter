@@ -50,7 +50,8 @@ object FileManager {
     }
 
     fun getFileContent(): String {
-        return File(file!!.absolutePath).readText()
+        return if (file != null) File(file!!.absolutePath).readText()
+        else ""
     }
 
     fun getFilePath(): String {
