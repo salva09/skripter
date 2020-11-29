@@ -23,8 +23,9 @@ class HomeManager(
         ifIsSavedElseSave {
             frame.title = "Skripter"
             setEditorContent("")
-            editorPane.syntaxEditingStyle = ""
             editorPane.discardAllEdits()
+            editorPane.syntaxEditingStyle = ""
+            frame.setLanguageLabel(Language(name = "No language"))
         }
     }
 
