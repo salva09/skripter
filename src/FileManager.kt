@@ -2,7 +2,6 @@ import java.io.File
 import java.io.IOException
 import javax.swing.JFileChooser
 import javax.swing.JMenuItem
-import javax.swing.JOptionPane
 
 object FileManager {
     private val supportedFiles = listOf("kts", "swift", "py")
@@ -12,20 +11,14 @@ object FileManager {
     var fileName = ""
         private set
 
-    fun openFile(): Boolean {
+    fun openFile() {
         fileChooser = JFileChooser()
         val result = fileChooser.showOpenDialog(menuItem)
 
         if (result != 0) throw IOException("No file open")
 
-        return if (!supportedFiles.contains(fileChooser.selectedFile.extension)) {
-            JOptionPane.showMessageDialog(null, "File type not supported", "Error", JOptionPane.ERROR_MESSAGE)
-            false
-        } else {
-            file = fileChooser.selectedFile
-            fileName = file!!.name
-            true
-        }
+        file = fileChooser.selectedFile
+        fileName = file!!.name
     }
 
     fun saveFile(modifiedText: String) {
