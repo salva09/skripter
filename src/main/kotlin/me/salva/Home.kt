@@ -1,10 +1,26 @@
 package me.salva
 
 import com.formdev.flatlaf.FlatLightLaf
-import java.awt.*
+import java.awt.Dimension
+import java.awt.GridBagConstraints
+import java.awt.GridBagLayout
 import java.awt.event.WindowAdapter
 import java.awt.event.WindowEvent
-import javax.swing.*
+import javax.swing.Box
+import javax.swing.ImageIcon
+import javax.swing.JButton
+import javax.swing.JEditorPane
+import javax.swing.JFrame
+import javax.swing.JLabel
+import javax.swing.JMenu
+import javax.swing.JMenuBar
+import javax.swing.JMenuItem
+import javax.swing.JOptionPane
+import javax.swing.JPanel
+import javax.swing.JScrollPane
+import javax.swing.JSplitPane
+import javax.swing.JTextArea
+import javax.swing.UIManager
 import kotlin.system.exitProcess
 
 private const val FRAME_HEIGHT = 600
