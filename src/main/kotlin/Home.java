@@ -9,6 +9,7 @@ public class Home extends JFrame {
     private JPanel mainPane;
     private JTextArea console;
     private JToolBar infoBar;
+    private RSyntaxTextArea editorPane;
     private JScrollPane editorScrollPane;
     private JLabel runningLabel;
     private JLabel languageLabel;
@@ -24,12 +25,14 @@ public class Home extends JFrame {
     private void createUIComponents() {
         // TODO: place custom component creation code here
         FlatLightLaf.install();
+        createEditorPane();
+        createMenuBar();
+    }
 
-        RSyntaxTextArea editorPane = new RSyntaxTextArea();
+    private void createEditorPane() {
+        editorPane = new RSyntaxTextArea();
         editorScrollPane = new RTextScrollPane(editorPane);
         editorScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-
-        createMenuBar();
     }
 
     private void createMenuBar() {
