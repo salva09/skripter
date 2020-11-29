@@ -141,8 +141,8 @@ class HomeManager(
                 "interpreter.\n" +
                 "Please make sure that you have it installed \n" +
                 "and \"${language.versionCommand}\" prints the interpreter version."
-        } catch (ex: ArrayIndexOutOfBoundsException) {
-            message = "I'm sorry, ${FileManager.getFileExtension()} scripts are not currently supported"
+        } catch (ex: Exception) {
+            message = "I'm sorry, but ${FileManager.getFileExtension()} scripts are not currently supported"
             language = Language(downloadUri = "https://www.google.com/search?q=${FileManager.getFileExtension()}")
         }
 
@@ -160,13 +160,16 @@ class HomeManager(
     }
 
     private fun hasInterpreterInstalled(): Boolean {
-        // If kotlin is the selected script, this will take a moment, the kotlin interpreter takes a while
-        // before start executing the scripts/commands
-        val process = Runtime.getRuntime().exec(
-            getLanguageByExtension(FileManager.getFileExtension())
-                .versionCommand
-        )
-        if (process.waitFor() == 0) return true
+        // If kotlin is the selected script, this will take a moment, the
+        // kotlin interpreter takes a while before start
+        // executing the scripts/commands
+        try {
+            val process = Runtime.getRuntime().exec(
+                getLanguageByExtension(FileManager.getFileExtension())
+                    .versionCommand
+            )
+            if (process.waitFor() == 0) return true
+        } catch (ex: ClassNotFoundException) {}
         return false
     }
 
