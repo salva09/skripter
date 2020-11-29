@@ -1,6 +1,8 @@
 package me.salva
 
 import java.awt.Desktop
+import java.io.IOException
+import java.lang.NullPointerException
 import java.net.URI
 import javax.swing.JEditorPane
 import javax.swing.JFrame
@@ -33,7 +35,7 @@ object HomeManager {
                 FileManager.openFile()
                 frame.title = "Skripter: ${FileManager.fileName}"
                 setEditorContent(FileManager.getFileContent())
-            } catch (ex: Exception) {}
+            } catch (ex: IOException) {}
         }
     }
 
@@ -44,7 +46,7 @@ object HomeManager {
             savedText = editorPane.text
             frame.title = "Skripter: ${FileManager.fileName}"
             true
-        } catch (ex: Exception) {
+        } catch (ex: NullPointerException) {
             false
         }
     }
@@ -118,7 +120,8 @@ object HomeManager {
         var message: String
         try {
             language = getLanguageByExtension(FileManager.getFileExtension())
-            message = "To run ${language.name} scripts I need to be able to access the ${language.name} interpreter.\n" +
+            message = "To run ${language.name} scripts I need to be able to access the ${language.name} " +
+                "interpreter.\n" +
                 "Please make sure that you have it installed \n" +
                 "and \"${language.versionCommand}\" prints the interpreter version."
         } catch (ex: ArrayIndexOutOfBoundsException) {

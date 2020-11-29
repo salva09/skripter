@@ -67,7 +67,7 @@ object FileManager {
     }
 
     private fun checkMenuItem() {
-        if (menuItem == null) throw Exception("Menu item is not initialized")
+        if (menuItem == null) throw NullPointerException("Menu item is not initialized")
     }
 
     fun isAFileOpen(): Boolean {
