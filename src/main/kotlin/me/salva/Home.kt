@@ -1,27 +1,16 @@
 package me.salva
 
-import com.formdev.flatlaf.FlatLightLaf
+import me.salva.syntax.setFrameLookAndFeel
+import me.salva.syntax.setLightScrollPane
+import me.salva.syntax.setLightTextArea
+import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea
+import org.fife.ui.rtextarea.RTextScrollPane
 import java.awt.Dimension
 import java.awt.GridBagConstraints
 import java.awt.GridBagLayout
 import java.awt.event.WindowAdapter
 import java.awt.event.WindowEvent
-import javax.swing.Box
-import javax.swing.ImageIcon
-import javax.swing.JButton
-import javax.swing.JEditorPane
-import javax.swing.JFrame
-import javax.swing.JLabel
-import javax.swing.JMenu
-import javax.swing.JMenuBar
-import javax.swing.JMenuItem
-import javax.swing.JOptionPane
-import javax.swing.JPanel
-import javax.swing.JScrollPane
-import javax.swing.JSplitPane
-import javax.swing.JTextArea
-import javax.swing.UIManager
-import kotlin.system.exitProcess
+import javax.swing.*
 
 private const val FRAME_HEIGHT = 600
 private const val FRAME_WIDTH = 550
@@ -30,33 +19,16 @@ private const val MIN_PANE_WIDTH = 500
 
 object Home : JFrame() {
     private lateinit var mainPane: JPanel
-    private lateinit var editorPane: JEditorPane
+    private lateinit var editorPane: RSyntaxTextArea
     private lateinit var outputPane: JTextArea
     private lateinit var runButton: JButton
     private lateinit var running: JLabel
 
     init {
-        setFrameLookAndFeel()
+        setFrameLookAndFeel(this)
         buildUi()
         setFrameConfigurations()
         redirectOutput(outputPane)
-    }
-
-    private fun setFrameLookAndFeel() {
-        try {
-            // TODO("User can select the preferred theme")
-            // UIManager.setLookAndFeel(FlatDarkLaf())
-            UIManager.setLookAndFeel(FlatLightLaf())
-        } catch (ex: Exception) {
-            JOptionPane.showMessageDialog(
-                this,
-                "Oh no! There was an error :( \n" +
-                    "Error: ${ex.message}",
-                "Error",
-                JOptionPane.ERROR_MESSAGE
-            )
-            exitProcess(0)
-        }
     }
 
     private fun buildUi() {
@@ -129,13 +101,25 @@ object Home : JFrame() {
 
     private fun createSplitPane(): JSplitPane {
         // TODO("Implement syntax highlight")
-        editorPane = JEditorPane()
-        editorPane.isEditable = true
+        initSyntax()
+        editorPane = RSyntaxTextArea()
 
-        val editorScrollPane = JScrollPane(editorPane)
-        editorScrollPane.verticalScrollBarPolicy = JScrollPane.VERTICAL_SCROLLBAR_ALWAYS
-        editorScrollPane.preferredSize = Dimension(500, 500)
-        editorScrollPane.minimumSize = Dimension(MIN_PANE_WIDTH, MIN_PANE_HEIGHT)
+        // Editor pane configurations
+        editorPane.closeCurlyBraces = true
+        editorPane.markOccurrences = true
+        editorPane.autoscrolls = true
+        editorPane.isCodeFoldingEnabled = true
+        editorPane.paintTabLines = true
+        editorPane.isAutoIndentEnabled = true
+        editorPane.isBracketMatchingEnabled = true
+
+        setLightTextArea(editorPane)
+
+        val sp = RTextScrollPane(editorPane)
+        sp.verticalScrollBarPolicy = JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED
+        sp.preferredSize = Dimension(500, 500)
+        sp.minimumSize = Dimension(MIN_PANE_WIDTH, MIN_PANE_HEIGHT)
+        setLightScrollPane(sp)
 
         outputPane = JTextArea()
         outputPane.isEditable = false
@@ -146,7 +130,8 @@ object Home : JFrame() {
         outputScrollPane.preferredSize = Dimension(500, 100)
         outputScrollPane.minimumSize = Dimension(MIN_PANE_WIDTH, MIN_PANE_HEIGHT)
 
-        return JSplitPane(JSplitPane.VERTICAL_SPLIT, editorScrollPane, outputScrollPane)
+        // return JSplitPane(JSplitPane.VERTICAL_SPLIT, editorScrollPane, outputScrollPane)
+        return JSplitPane(JSplitPane.VERTICAL_SPLIT, sp, outputScrollPane)
     }
 
     private fun createMenuBar() {

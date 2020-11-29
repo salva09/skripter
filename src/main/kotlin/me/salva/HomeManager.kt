@@ -1,10 +1,10 @@
 package me.salva
 
+import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea
 import java.awt.Desktop
 import java.io.IOException
 import java.lang.NullPointerException
 import java.net.URI
-import javax.swing.JEditorPane
 import javax.swing.JFrame
 import javax.swing.JOptionPane
 import javax.swing.JTextArea
@@ -12,11 +12,11 @@ import kotlin.system.exitProcess
 
 object HomeManager {
     private lateinit var frame: JFrame
-    private lateinit var editorPane: JEditorPane
+    private lateinit var editorPane: RSyntaxTextArea
     private lateinit var outputPane: JTextArea
     private var savedText = ""
 
-    fun init(frame: JFrame, editorPane: JEditorPane, outputPane: JTextArea) {
+    fun init(frame: JFrame, editorPane: RSyntaxTextArea, outputPane: JTextArea) {
         this.frame = frame
         this.editorPane = editorPane
         this.outputPane = outputPane
@@ -26,6 +26,7 @@ object HomeManager {
         ifIsSavedElseSave {
             frame.title = "Skripter"
             setEditorContent("")
+            editorPane.syntaxEditingStyle = ""
         }
     }
 
@@ -35,6 +36,7 @@ object HomeManager {
                 FileManager.openFile()
                 frame.title = "Skripter: ${FileManager.fileName}"
                 setEditorContent(FileManager.getFileContent())
+                editorPane.syntaxEditingStyle = getLanguageByExtension(FileManager.getFileExtension()).syntaxKey
             } catch (ex: IOException) {}
         }
     }
@@ -45,6 +47,7 @@ object HomeManager {
             else FileManager.saveFile(editorPane.text)
             savedText = editorPane.text
             frame.title = "Skripter: ${FileManager.fileName}"
+            editorPane.syntaxEditingStyle = getLanguageByExtension(FileManager.getFileExtension()).syntaxKey
             true
         } catch (ex: NullPointerException) {
             false
@@ -55,6 +58,7 @@ object HomeManager {
         FileManager.saveFileAs(editorPane.text)
         savedText = editorPane.text
         frame.title = "Skripter: ${FileManager.fileName}"
+        editorPane.syntaxEditingStyle = getLanguageByExtension(FileManager.getFileExtension()).syntaxKey
     }
 
     fun closeFile() {
