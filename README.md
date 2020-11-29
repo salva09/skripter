@@ -21,7 +21,7 @@ A GUI tool that allows users to enter a script, execute it, and see its output s
 ## Built with
 * [Kotlin](https://kotlinlang.org/) - Programming language
 * [OpenJDK 11](https://openjdk.java.net/) - Runtime environment and development kit
-* [Gradle](https://gradle.org/) - Build system
+* [Intellij IDEA](https://www.jetbrains.com/idea/) - Integrated Development Environment
 
 ## Author
 * **Salvador** - [salva09](https://github.com/salva09)
