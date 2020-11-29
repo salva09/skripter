@@ -1,6 +1,5 @@
 import javax.swing.*;
 
-import com.formdev.flatlaf.FlatLightLaf;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rtextarea.RTextArea;
 import org.fife.ui.rtextarea.RTextScrollPane;
@@ -42,17 +41,17 @@ public class Home extends JFrame {
 
     public void setRunningLabel() {
         runningLabel.setText("Running");
-        // runningLabel.setIcon(new ImageIcon(getClass().getResource("/icons/loading.gif")));
+        runningLabel.setIcon(new ImageIcon(getClass().getResource("icons/loading.gif")));
     }
 
     public void setGoodLabel() {
         runningLabel.setText("Exit code: 0");
-        // runningLabel.setIcon(new ImageIcon(getClass().getResource("/icons/good.png")));
+        runningLabel.setIcon(new ImageIcon(getClass().getResource("icons/good.png")));
     }
 
     public void setBadLabel(int exitCode) {
         runningLabel.setText("Non-zero exit code: " + exitCode);
-        // runningLabel.setIcon(new ImageIcon(getClass().getResource("/icons/bad.png")));
+        runningLabel.setIcon(new ImageIcon(getClass().getResource("icons/bad.png")));
     }
 
     public void clearConsole() {
@@ -65,6 +64,7 @@ public class Home extends JFrame {
         createConsole();
         manager = new HomeManager(this, editorPane, console);
         createMenuBar();
+        createLabels();
     }
 
     private void createEditorPane() {
@@ -141,6 +141,11 @@ public class Home extends JFrame {
         menuBar.add(runButton);
 
         this.setJMenuBar(menuBar);
+    }
+
+    private void createLabels() {
+        runningLabel = new JLabel();
+        languageLabel = new JLabel();
     }
 
     private JMenuItem createMenuItem(Action action) {
