@@ -12,12 +12,12 @@ import javax.swing.UIManager
 import kotlin.system.exitProcess
 
 // Light colors
-private val green = Color(123, 160, 91)
-private val gray = Color(128, 128, 128)
-private val red = Color(220, 20, 60)
-private val blue = Color(176, 196, 222)
-private val background = Color(255, 255, 255)
-private val foreground = Color(0, 0, 0)
+private val GREEN = Color(123, 160, 91)
+private val GRAY = Color(128, 128, 128)
+private val RED = Color(220, 20, 60)
+private val BLUE = Color(176, 196, 222)
+private val BACKGROUND = Color(255, 255, 255)
+private val FOREGROUND = Color(0, 0, 0)
 
 fun setFrameLookAndFeel(frame: JFrame) {
     try {
@@ -39,13 +39,13 @@ fun setLightTextArea(textArea: RSyntaxTextArea) {
     // Color schemes
     val scheme = textArea.syntaxScheme
 
-    scheme.getStyle(Token.RESERVED_WORD).foreground = gray
-    scheme.getStyle(Token.RESERVED_WORD_2).foreground = red
-    scheme.getStyle(Token.FUNCTION).foreground = green
-    scheme.getStyle(Token.LITERAL_NUMBER_DECIMAL_INT).foreground = blue
-    textArea.background = background
-    textArea.foreground = foreground
-    textArea.currentLineHighlightColor = background
+    scheme.getStyle(Token.RESERVED_WORD).foreground = GRAY
+    scheme.getStyle(Token.RESERVED_WORD_2).foreground = RED
+    scheme.getStyle(Token.FUNCTION).foreground = GREEN
+    scheme.getStyle(Token.LITERAL_NUMBER_DECIMAL_INT).foreground = BLUE
+    textArea.background = BACKGROUND
+    textArea.foreground = FOREGROUND
+    textArea.currentLineHighlightColor = BACKGROUND
     textArea.isMarginLineEnabled = true
     textArea.marginLineColor = Color.DARK_GRAY
 
@@ -54,7 +54,7 @@ fun setLightTextArea(textArea: RSyntaxTextArea) {
 
 fun setLightScrollPane(scrollPane: RTextScrollPane) {
     scrollPane.gutter.borderColor = Color.GRAY
-    scrollPane.gutter.background = background
+    scrollPane.gutter.background = BACKGROUND
 
     scrollPane.revalidate()
 }
