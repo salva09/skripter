@@ -12,10 +12,6 @@ object FileManager {
     var fileName = ""
         private set
 
-    fun newFile() {
-        file = null
-    }
-
     fun openFile(): Boolean {
         fileChooser = JFileChooser()
         val result = fileChooser.showOpenDialog(menuItem)
@@ -42,7 +38,6 @@ object FileManager {
     }
 
     fun saveFileAs(modifiedText: String) {
-        checkMenuItem()
         fileChooser = JFileChooser()
         fileChooser.dialogTitle = "Save file"
         val result = fileChooser.showSaveDialog(menuItem)
@@ -50,8 +45,8 @@ object FileManager {
         if (result == JFileChooser.APPROVE_OPTION) {
             file = File(fileChooser.selectedFile.absolutePath)
             file!!.writeText(modifiedText)
+            fileName = file!!.name
         }
-        fileName = file!!.name
     }
 
     fun getFileContent(): String {
@@ -70,9 +65,5 @@ object FileManager {
 
     fun isAFileOpen(): Boolean {
         return file != null
-    }
-
-    private fun checkMenuItem() {
-        if (menuItem == null) throw NullPointerException("Menu item is not initialized")
     }
 }

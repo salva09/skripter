@@ -12,9 +12,9 @@ object Runner {
         // Runs the command in other thread so we can edit while is running
         scriptThread = Thread {
             // We want to clear the previous output, don't we?
-            // View.clearOutput()
+            view.clearConsole()
 
-            // HomeManager.changeLabelToRunning()
+            view.setRunningLabel()
 
             process = Runtime.getRuntime().exec(
                 getLanguageByExtension(FileManager.getFileExtension())
@@ -25,7 +25,8 @@ object Runner {
             inheritIO(process!!.errorStream, System.err)
 
             exitCode = process!!.waitFor()
-            // HomeManager.changeLabelToIdle(exitCode)
+            if (exitCode == 0) view.setGoodLabel()
+            else view.setBadLabel(exitCode)
         }
         scriptThread.start()
     }

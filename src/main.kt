@@ -1,3 +1,5 @@
+lateinit var view: Home
+
 fun main() {
-    val view = Home()
+    view = Home()
 }

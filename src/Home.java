@@ -13,6 +13,7 @@ public class Home extends JFrame {
     private JScrollPane editorScrollPane;
     private JLabel runningLabel;
     private JLabel languageLabel;
+    private HomeManager manager;
 
     public Home() {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -22,10 +23,35 @@ public class Home extends JFrame {
         this.setVisible(true);
     }
 
+    public void setIdleLabel() {
+        runningLabel.setText("Idle");
+        runningLabel.setIcon(null);
+    }
+
+    public void setRunningLabel() {
+        runningLabel.setText("Running");
+        runningLabel.setIcon(new ImageIcon(getClass().getResource("/icons/loading.gif")));
+    }
+
+    public void setGoodLabel() {
+        runningLabel.setText("Exit code: 0");
+        runningLabel.setIcon(new ImageIcon(getClass().getResource("/icons/good.png")));
+    }
+
+    public void setBadLabel(int exitCode) {
+        runningLabel.setText("Non-zero exit code: " + exitCode);
+        runningLabel.setIcon(new ImageIcon(getClass().getResource("/icons/bad.png")));
+    }
+
+    public void clearConsole() {
+        manager.cleanConsole();
+    }
+
     private void createUIComponents() {
-        // TODO: place custom component creation code here
         FlatLightLaf.install();
         createEditorPane();
+        createConsole();
+        manager = new HomeManager(this, editorPane, console);
         createMenuBar();
     }
 
@@ -35,17 +61,34 @@ public class Home extends JFrame {
         editorScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
     }
 
+    private void createConsole() {
+        console = new JTextArea();
+        console.setEditable(false);
+    }
+
     private void createMenuBar() {
         var menuBar = new JMenuBar();
         var file = new JMenu("File");
 
         var newFile = new JMenuItem("New");
+        newFile.addActionListener(e -> {
+            manager.newFile();
+        });
         file.add(newFile);
         var openFile = new JMenuItem("Open");
+        openFile.addActionListener(e -> {
+            manager.openFile();
+        });
         file.add(openFile);
         var saveFile = new JMenuItem("Save");
+        saveFile.addActionListener(e -> {
+            manager.saveFile();
+        });
         file.add(saveFile);
         var saveAsFile = new JMenuItem("Save as");
+        saveAsFile.addActionListener(e -> {
+            manager.saveFilesAs();
+        });
         file.add(saveAsFile);
         var exit = new JMenuItem("Exit");
         exit.addActionListener(e -> {
