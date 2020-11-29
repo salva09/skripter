@@ -114,46 +114,21 @@ object HomeManager {
             "Okay",
             "Online help"
         )
-        val language: Pair<String, String> = when (FileManager.getFileExtension()) {
-            "kts" -> {
-                Pair(
-                    "<html>" +
-                        "To run Kotlin scripts I need to be able to access the Kotlin cli compiler.<br>" +
-                        "Please make sure that you have it installed and \"kotlinc -v\" returns 0.<br>" +
-                        "</html>",
-                    "https://kotlinlang.org/docs/tutorials/command-line.html"
-                )
-            }
-            "swift" -> {
-                Pair(
-                    "<html>" +
-                            "To run Swift scripts I need to be able to access the Swift cli compiler.<br>" +
-                            "Please make sure that you have it installed and \"swift -version\" returns 0.<br>" +
-                            "</html>",
-                    "https://swift.org/getting-started/#installing-swift"
-                )
-            }
-            "py" -> {
-                Pair(
-                    "<html>" +
-                            "To run Python scripts I need to be able to access the Python interpreter.<br>" +
-                            "Please make sure that you have it installed and \"python -V\" returns 0.<br>" +
-                            "</html>",
-                    "https://wiki.python.org/moin/BeginnersGuide/Download"
-                )
-            }
-            else -> {
-                Pair(
-                    "<html>" +
-                            "I'm sorry, but this script is not currently supported" +
-                            "</html>",
-                    "https://www.google.com/search?q=${FileManager.getFileExtension()}"
-                )
-            }
+        var language: Language
+        var message: String
+        try {
+            language = getLanguageByExtension(FileManager.getFileExtension())
+            message = "To run ${language.name} scripts I need to be able to access the ${language.name} interpreter.\n" +
+                "Please make sure that you have it installed \n" +
+                "and \"${language.versionCommand}\" prints the interpreter version."
+        } catch (ex: ArrayIndexOutOfBoundsException) {
+            message = "I'm sorry, ${FileManager.getFileExtension()} scripts are not currently supported"
+            language = Language(downloadUri = "https://www.google.com/search?q=${FileManager.getFileExtension()}")
         }
+
         val result = JOptionPane.showOptionDialog(
             Home,
-            language.first,
+            message,
             "Error",
             JOptionPane.YES_NO_OPTION,
             JOptionPane.ERROR_MESSAGE,
@@ -161,27 +136,16 @@ object HomeManager {
             options,
             null
         )
-        if (result == 1) Desktop.getDesktop().browse(URI(language.second))
+        if (result == 1) Desktop.getDesktop().browse(URI(language.downloadUri))
     }
 
     private fun hasInterpreterInstalled(): Boolean {
-        val testCommand = when (FileManager.getFileExtension()) {
-            "kts" -> {
-                "kotlinc -version"
-            }
-            "swift" -> {
-                "/usr/bin/env swift -version"
-            }
-            "py" -> {
-                "/usr/bin/env python -V"
-            }
-            else -> {
-                "false"
-            }
-        }
         // If kotlin is the selected script, this will take a moment, the kotlin interpreter takes a while
         // before start executing the scripts/commands
-        val process = Runtime.getRuntime().exec(testCommand)
+        val process = Runtime.getRuntime().exec(
+            getLanguageByExtension(FileManager.getFileExtension())
+                .versionCommand
+        )
         if (process.waitFor() == 0) return true
         return false
     }

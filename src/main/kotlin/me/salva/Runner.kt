@@ -2,7 +2,7 @@ package me.salva
 
 import java.io.InputStream
 import java.io.PrintStream
-import java.util.*
+import java.util.Scanner
 
 object Runner {
     private lateinit var scriptThread: Thread
@@ -19,7 +19,10 @@ object Runner {
             HomeManager.changeLabelToRunning()
             isAlive = true
 
-            process = Runtime.getRuntime().exec(getCommand(script))
+            process = Runtime.getRuntime().exec(
+                getLanguageByExtension(FileManager.getFileExtension())
+                    .executionCommand + " " + script
+            )
 
             inheritIO(process!!.inputStream, System.out)
             inheritIO(process!!.errorStream, System.err)
@@ -39,23 +42,6 @@ object Runner {
 
     fun isProcessAlive(): Boolean {
         return isAlive
-    }
-
-    private fun getCommand(script: String): String {
-        return when (FileManager.getFileExtension()) {
-            "kts" -> {
-                "kotlinc -script $script"
-            }
-            "swift" -> {
-                "/usr/bin/env swift $script"
-            }
-            "py" -> {
-                "/usr/bin/env python $script"
-            }
-            else -> {
-                throw Exception("File not supported as script")
-            }
-        }
     }
 
     private fun inheritIO(src: InputStream, dest: PrintStream) {
