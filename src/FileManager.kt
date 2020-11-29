@@ -5,8 +5,74 @@ import javax.swing.JMenuItem
 import javax.swing.JOptionPane
 
 object FileManager {
-    private val supportedExtensions = listOf("kts", "swift", "py")
+    private val supportedFiles = listOf("kts", "swift", "py")
+    private lateinit var fileChooser: JFileChooser
+    private var file: File? = null
+    var menuItem: JMenuItem? = null
+    var fileName = ""
+        private set
 
     fun newFile() {
+        file = null
+    }
+
+    fun openFile(): Boolean {
+        fileChooser = JFileChooser()
+        val result = fileChooser.showOpenDialog(menuItem)
+
+        if (result != 0) throw IOException("No file open")
+
+        return if (!supportedFiles.contains(fileChooser.selectedFile.extension)) {
+            JOptionPane.showMessageDialog(null, "File type not supported", "Error", JOptionPane.ERROR_MESSAGE)
+            false
+        } else {
+            file = fileChooser.selectedFile
+            fileName = file!!.name
+            true
+        }
+    }
+
+    fun saveFile(modifiedText: String) {
+        if (file != null) {
+            File(file!!.absolutePath).writeText(modifiedText)
+            fileName = file!!.name
+        } else {
+            saveFileAs(modifiedText)
+        }
+    }
+
+    fun saveFileAs(modifiedText: String) {
+        checkMenuItem()
+        fileChooser = JFileChooser()
+        fileChooser.dialogTitle = "Save file"
+        val result = fileChooser.showSaveDialog(menuItem)
+
+        if (result == JFileChooser.APPROVE_OPTION) {
+            file = File(fileChooser.selectedFile.absolutePath)
+            file!!.writeText(modifiedText)
+        }
+        fileName = file!!.name
+    }
+
+    fun getFileContent(): String {
+        return File(file!!.absolutePath).readText()
+    }
+
+    fun getFilePath(): String {
+        return if (file != null) file!!.absolutePath
+        else ""
+    }
+
+    fun getFileExtension(): String {
+        return if (file != null) file!!.extension
+        else ""
+    }
+
+    fun isAFileOpen(): Boolean {
+        return file != null
+    }
+
+    private fun checkMenuItem() {
+        if (menuItem == null) throw NullPointerException("Menu item is not initialized")
     }
 }
