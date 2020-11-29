@@ -122,7 +122,9 @@ public class Home extends JFrame {
         menuBar.add(editMenu);
 
         var console = new JMenu("Console");
-        console.addActionListener(e -> clearConsole());
+        var clearConsole = new JMenuItem("Clear console");
+        clearConsole.addActionListener(e -> clearConsole());
+        console.add(clearConsole);
         menuBar.add(console);
 
         menuBar.add(Box.createHorizontalGlue());
