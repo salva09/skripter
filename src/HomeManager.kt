@@ -75,35 +75,36 @@ class HomeManager(
     }
 
     fun runScript() {
-        if (!isPreviousTextSaved()) {
-            promptFileWarning {}
-        }
-        if (isPreviousTextSaved()) {
-            if (!hasInterpreterInstalled()) {
-                showErrorWhenNoInterpreter()
-                return
+        if (FileManager.isAFileOpen()) {
+            if (!isPreviousTextSaved()) {
+                promptFileWarning {}
             }
-
-            if (Runner.isProcessAlive()) {
-                val message = "The previous script is still running!"
-                val options = arrayOf(
-                    "Wait to finish"
-                    // "Kill it"
-                )
-                val result = JOptionPane.showOptionDialog(
-                    frame,
-                    message,
-                    "",
-                    JOptionPane.YES_NO_OPTION,
-                    JOptionPane.INFORMATION_MESSAGE,
-                    null,
-                    options,
-                    null
-                )
-                if (result == 0) return
-                else stopScript()
-            } else {
-                Runner.run(FileManager.getFilePath())
+            if (isPreviousTextSaved()) {
+                if (!hasInterpreterInstalled()) {
+                    showErrorWhenNoInterpreter()
+                    return
+                }
+                if (Runner.isProcessAlive()) {
+                    val message = "The previous script is still running!"
+                    val options = arrayOf(
+                        "Wait to finish"
+                        // "Kill it"
+                    )
+                    val result = JOptionPane.showOptionDialog(
+                        frame,
+                        message,
+                        "",
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.INFORMATION_MESSAGE,
+                        null,
+                        options,
+                        null
+                    )
+                    if (result == 0) return
+                    else stopScript()
+                } else {
+                    Runner.run(FileManager.getFilePath())
+                }
             }
         }
     }
