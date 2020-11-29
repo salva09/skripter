@@ -4,7 +4,6 @@ import javax.swing.JFileChooser
 import javax.swing.JMenuItem
 
 object FileManager {
-    private val supportedFiles = listOf("kts", "swift", "py")
     private lateinit var fileChooser: JFileChooser
     private var file: File? = null
     var menuItem: JMenuItem? = null

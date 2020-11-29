@@ -39,7 +39,13 @@ class HomeManager(
                 editorPane.discardAllEdits()
                 editorPane.syntaxEditingStyle = language.syntaxKey
                 frame.setLanguageLabel(language)
-            } catch (ex: IOException) {} catch (ex: NullPointerException) {} catch (ex: ClassNotFoundException) {}
+            } catch (ex: IOException) {} catch (ex: NullPointerException) {} catch (ex: ClassNotFoundException) {
+                frame.title = "Skripter: ${FileManager.fileName}"
+                setEditorContent(FileManager.getFileContent())
+                editorPane.discardAllEdits()
+                editorPane.syntaxEditingStyle = ""
+                frame.setLanguageLabel(Language(name = FileManager.getFileExtension()))
+            }
         }
     }
 
