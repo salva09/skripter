@@ -6,10 +6,8 @@ import org.fife.ui.rsyntaxtextarea.Token
 import org.fife.ui.rtextarea.RTextScrollPane
 import java.awt.Color
 import javax.swing.JFrame
-import javax.swing.JOptionPane
 import javax.swing.SwingUtilities
 import javax.swing.UIManager
-import kotlin.system.exitProcess
 
 class LightTheme : Theme {
     override val background: Color = Color(255, 255, 255)
@@ -20,19 +18,8 @@ class LightTheme : Theme {
     private val blue = Color(176, 196, 222)
 
     override fun setFrameLookAndFeel(frame: JFrame) {
-        try {
-            UIManager.setLookAndFeel(FlatLightLaf())
-            SwingUtilities.updateComponentTreeUI(frame)
-        } catch (ex: Exception) {
-            JOptionPane.showMessageDialog(
-                frame,
-                "Oh no! There was an error :( \n" +
-                    "Error: ${ex.message}",
-                "Error",
-                JOptionPane.ERROR_MESSAGE
-            )
-            exitProcess(0)
-        }
+        UIManager.setLookAndFeel(FlatLightLaf())
+        SwingUtilities.updateComponentTreeUI(frame)
     }
     override fun setTextAreaTheme(textArea: RSyntaxTextArea) {
         // Color schemes
