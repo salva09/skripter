@@ -38,7 +38,7 @@
             <properties/>
             <border type="none"/>
             <children>
-              <component id="bb927" class="javax.swing.JTextArea" binding="console">
+              <component id="bb927" class="javax.swing.JTextArea" binding="console" custom-create="true">
                 <constraints/>
                 <properties>
                   <editable value="false"/>
