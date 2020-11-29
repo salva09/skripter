@@ -5,6 +5,9 @@ import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rtextarea.RTextArea;
 import org.fife.ui.rtextarea.RTextScrollPane;
 
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+
 public class Home extends JFrame {
     private JPanel mainPane;
     private JTextArea console;
@@ -16,11 +19,17 @@ public class Home extends JFrame {
     private HomeManager manager;
 
     public Home() {
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setContentPane(mainPane);
         this.setSize(700, 600);
         this.setLocationRelativeTo(null);
         this.setVisible(true);
+        this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        this.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                manager.closeFile();
+            }
+        });
     }
 
     public void setIdleLabel() {
@@ -92,7 +101,7 @@ public class Home extends JFrame {
         file.add(saveAsFile);
         var exit = new JMenuItem("Exit");
         exit.addActionListener(e -> {
-            System.exit(0);
+            manager.closeFile();
         });
         file.add(exit);
 
