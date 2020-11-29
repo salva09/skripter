@@ -5,8 +5,12 @@ import org.fife.ui.rtextarea.RTextArea;
 import org.fife.ui.rtextarea.RTextScrollPane;
 import syntax.Theme;
 
+import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 public class Home extends JFrame {
     private JPanel mainPane;
@@ -127,6 +131,20 @@ public class Home extends JFrame {
         console.add(clearConsole);
         menuBar.add(console);
 
+        var help = new JMenu("Help");
+
+        var what = new JMenuItem("What can I do");
+        what.addActionListener(e -> showWhatCanIDo());
+        help.add(what);
+        var source = new JMenuItem("Source");
+        source.addActionListener(e -> showSource());
+        help.add(source);
+        var about = new JMenuItem("About");
+        about.addActionListener(e -> showAbout());
+        help.add(about);
+
+        menuBar.add(help);
+
         menuBar.add(Box.createHorizontalGlue());
 
         runButton = new JButton(new ImageIcon(getClass().getResource("icons/play.png")));
@@ -136,6 +154,79 @@ public class Home extends JFrame {
         menuBar.add(runButton);
 
         this.setJMenuBar(menuBar);
+    }
+
+    private void showWhatCanIDo() {
+        var options = new String[]{"Thanks!"};
+        var message = "<html>" +
+                "<h1>Here is a list of what you can do!</h1>" +
+                "<ul>" +
+                "<li>" +
+                "<h3>Open and edit scripts</h3><br>" +
+                "<p>You can use the file menu to open existing files in your computer and<br>" +
+                "edit them using the built.in editor. You can open any type of file.</p>" +
+                "</li>" +
+                "<li>" +
+                "<h3>Run a script and see its output</h3><br>" +
+                "<p>If you has a supported script, you can run it using the green button at<br>" +
+                "the top left corner, and si its output in the console below.<br>" +
+                "<h5>Currently only Kotlin, Swift and Python scripts are supported.</h5></p>" +
+                "</li>" +
+                "</ul>" +
+                "</html>";
+        var title = "Getting help";
+        JOptionPane.showOptionDialog(
+                this,
+                message,
+                title,
+                JOptionPane.YES_OPTION,
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                options,
+                null
+        );
+    }
+
+    private void showAbout() {
+        var message = "<html>" +
+                "<h1>Skripter</h1><br>" +
+                "<p>A GUI tool that allows users to enter<br>" +
+                "a script, execute it, and see its output side-by-side</p>" +
+                "<h5>Written with love in Kotlin and Java</h5>" +
+                "</html>";
+        var title = "About";
+        var icon = new ImageIcon(getClass().getResource("icons/script.png"));
+        JOptionPane.showMessageDialog(
+                this,
+                message,
+                title,
+                JOptionPane.OK_OPTION,
+                icon
+        );
+    }
+
+    private void showSource() {
+        var options = new String[]{"Okay", "Go to Github"};
+        var message = "<html>" +
+                "<p>This project is free and open source under the MIT License<br>" +
+                "and hosted on Github</p>" +
+                "</html>";
+        var title = "Source code";
+        var icon = new ImageIcon(getClass().getResource("icons/github.png"));
+        var result = JOptionPane.showOptionDialog(
+                this,
+                message,
+                title,
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.PLAIN_MESSAGE,
+                icon,
+                options,
+                null
+        );
+        try {
+            if (result == 1)
+                Desktop.getDesktop().browse(new URI("https://github.com/salva09/skripter"));
+        } catch (URISyntaxException | IOException ignored) {}
     }
 
     private void createLabels() {
