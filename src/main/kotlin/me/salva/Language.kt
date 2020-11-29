@@ -35,9 +35,9 @@ private val languages = listOf(
         "Swift is a general-purpose programming language built using a modern " +
             "approach to safety, performance, and software design patterns.",
         "/usr/bin/env swift",
-        "swift -version",
-        "",
-        "",
+        "/usr/bin/env swift -version",
+        "text/swift",
+        "me.salva.syntax.SwiftSyntax",
         "swift",
         "https://swift.org/",
         "https://swift.org/getting-started/#installing-swift"
