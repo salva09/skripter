@@ -34,8 +34,10 @@ class HomeManager(
                 FileManager.openFile()
                 frame.title = "Skripter: ${FileManager.fileName}"
                 setEditorContent(FileManager.getFileContent())
-                editorPane.syntaxEditingStyle = getLanguageByExtension(FileManager.getFileExtension()).syntaxKey
                 editorPane.discardAllEdits()
+                val language = getLanguageByExtension(FileManager.getFileExtension())
+                editorPane.syntaxEditingStyle = language.syntaxKey
+                frame.setLanguageLabel(language)
             } catch (ex: IOException) {
             }
         }
@@ -47,7 +49,9 @@ class HomeManager(
             else FileManager.saveFile(editorPane.text)
             savedText = editorPane.text
             frame.title = "Skripter: ${FileManager.fileName}"
-            editorPane.syntaxEditingStyle = getLanguageByExtension(FileManager.getFileExtension()).syntaxKey
+            val language = getLanguageByExtension(FileManager.getFileExtension())
+            editorPane.syntaxEditingStyle = language.syntaxKey
+            frame.setLanguageLabel(language)
             true
         } catch (ex: NullPointerException) {
             false
@@ -58,7 +62,9 @@ class HomeManager(
         FileManager.saveFileAs(editorPane.text)
         savedText = editorPane.text
         frame.title = "Skripter: ${FileManager.fileName}"
-        editorPane.syntaxEditingStyle = getLanguageByExtension(FileManager.getFileExtension()).syntaxKey
+        val language = getLanguageByExtension(FileManager.getFileExtension())
+        editorPane.syntaxEditingStyle = language.syntaxKey
+        frame.setLanguageLabel(language)
     }
 
     fun closeFile() {

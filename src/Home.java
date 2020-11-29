@@ -54,6 +54,11 @@ public class Home extends JFrame {
         runningLabel.setIcon(new ImageIcon(getClass().getResource("icons/bad.png")));
     }
 
+    public void setLanguageLabel(Language language) {
+        this.languageLabel.setText(language.getName());
+        this.languageLabel.setIcon(new ImageIcon(getClass().getResource(language.getIcon())));
+    }
+
     public void clearConsole() {
         manager.cleanConsole();
     }
@@ -85,29 +90,19 @@ public class Home extends JFrame {
         var file = new JMenu("File");
 
         var newFile = new JMenuItem("New");
-        newFile.addActionListener(e -> {
-            manager.newFile();
-        });
+        newFile.addActionListener(e -> manager.newFile());
         file.add(newFile);
         var openFile = new JMenuItem("Open");
-        openFile.addActionListener(e -> {
-            manager.openFile();
-        });
+        openFile.addActionListener(e -> manager.openFile());
         file.add(openFile);
         var saveFile = new JMenuItem("Save");
-        saveFile.addActionListener(e -> {
-            manager.saveFile();
-        });
+        saveFile.addActionListener(e -> manager.saveFile());
         file.add(saveFile);
         var saveAsFile = new JMenuItem("Save as");
-        saveAsFile.addActionListener(e -> {
-            manager.saveFilesAs();
-        });
+        saveAsFile.addActionListener(e -> manager.saveFilesAs());
         file.add(saveAsFile);
         var exit = new JMenuItem("Exit");
-        exit.addActionListener(e -> {
-            manager.closeFile();
-        });
+        exit.addActionListener(e -> manager.closeFile());
         file.add(exit);
 
         menuBar.add(file);
@@ -125,9 +120,7 @@ public class Home extends JFrame {
         menuBar.add(editMenu);
 
         var console = new JMenu("Console");
-        console.addActionListener(e -> {
-            clearConsole();
-        });
+        console.addActionListener(e -> clearConsole());
         menuBar.add(console);
 
         menuBar.add(Box.createHorizontalGlue());
@@ -135,9 +128,7 @@ public class Home extends JFrame {
         var runButton = new JButton(new ImageIcon(getClass().getResource("icons/play.png")));
         runButton.setBorder(null);
         runButton.setFocusPainted(false);
-        runButton.addActionListener(e -> {
-            manager.runScript();
-        });
+        runButton.addActionListener(e -> manager.runScript());
         menuBar.add(runButton);
 
         this.setJMenuBar(menuBar);

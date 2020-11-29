@@ -21,7 +21,7 @@ private val languages = listOf(
     Language(
         "Kotlin",
         "A modern programming language that makes developers happier.",
-        "/icons/kotlin.png",
+        "icons/kotlin.png",
         "kotlinc -script",
         "kotlin -version",
         "text/kotlin",
@@ -34,7 +34,7 @@ private val languages = listOf(
         "Swift",
         "Swift is a general-purpose programming language built using a modern " +
             "approach to safety, performance, and software design patterns.",
-        "/icons/swift.png",
+        "icons/swift.png",
         "/usr/bin/env swift",
         "/usr/bin/env swift -version",
         "text/swift",
@@ -47,7 +47,7 @@ private val languages = listOf(
         "Python",
         "Python is a programming language that lets you work quickly and integrate " +
             "systems more effectively.",
-        "/icons/python.png",
+        "icons/python.png",
         "/usr/bin/env python",
         "python -V",
         SyntaxConstants.SYNTAX_STYLE_PYTHON,
