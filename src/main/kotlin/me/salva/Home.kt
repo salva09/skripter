@@ -38,33 +38,13 @@ object Home : JFrame() {
 
         val c = GridBagConstraints()
 
-        /*
-        Expected layout
-        ______________________________
-        |File|Edit|Help|         |Run|
-        |____________________________|
-        |println("Hello")            |
-        |                            |
-        |                            |
-        |                            |
-        |                            |
-        |                            |
-        |                            |
-        |____________________________|
-        |Hello                       |
-        |                            |
-        |                            |
-        |____________________________|
-        Exit code: 0 *------* Progress
-         */
-
         c.gridx = 0
         c.gridy = 0
         c.ipadx = 100
-        c.ipady = 310
-        c.gridwidth = 5
-        c.gridheight = 5
-        c.weightx = 100.0
+        // c.ipady = 310
+        // c.gridwidth = 5
+        // c.gridheight = 5
+        // c.weightx = 100.0
         c.weighty = 100.0
         c.fill = GridBagConstraints.BOTH
         mainPane.add(createSplitPane(), c)
@@ -117,8 +97,6 @@ object Home : JFrame() {
 
         val sp = RTextScrollPane(editorPane)
         sp.verticalScrollBarPolicy = JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED
-        sp.preferredSize = Dimension(500, 500)
-        sp.minimumSize = Dimension(MIN_PANE_WIDTH, MIN_PANE_HEIGHT)
         setLightScrollPane(sp)
 
         outputPane = JTextArea()
@@ -126,12 +104,18 @@ object Home : JFrame() {
 
         val outputScrollPane = JScrollPane(outputPane)
         outputScrollPane.verticalScrollBarPolicy = JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED
-        // The output pane should be smaller but it doesn't want
+
+        val splitPane = JSplitPane(JSplitPane.VERTICAL_SPLIT, sp, outputScrollPane)
+        splitPane.dividerSize = 20
+        splitPane.dividerLocation = 600
+
+        sp.preferredSize = Dimension(500, 500)
+        sp.minimumSize = Dimension(MIN_PANE_WIDTH, MIN_PANE_HEIGHT)
+
         outputScrollPane.preferredSize = Dimension(500, 100)
         outputScrollPane.minimumSize = Dimension(MIN_PANE_WIDTH, MIN_PANE_HEIGHT)
 
-        // return JSplitPane(JSplitPane.VERTICAL_SPLIT, editorScrollPane, outputScrollPane)
-        return JSplitPane(JSplitPane.VERTICAL_SPLIT, sp, outputScrollPane)
+        return splitPane
     }
 
     private fun createMenuBar() {
