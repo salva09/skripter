@@ -14,6 +14,7 @@ public class Home extends JFrame {
     private JToolBar infoBar;
     private RSyntaxTextArea editorPane;
     private JScrollPane editorScrollPane;
+    private JButton runButton;
     private JLabel runningLabel;
     private JLabel languageLabel;
     private HomeManager manager;
@@ -21,6 +22,7 @@ public class Home extends JFrame {
 
     public Home(Theme theme) {
         this.theme = theme;
+        this.setTitle("Skripter");
         this.setContentPane(mainPane);
         this.setSize(700, 600);
         this.setLocationRelativeTo(null);
@@ -125,7 +127,7 @@ public class Home extends JFrame {
 
         menuBar.add(Box.createHorizontalGlue());
 
-        var runButton = new JButton(new ImageIcon(getClass().getResource("icons/play.png")));
+        runButton = new JButton(new ImageIcon(getClass().getResource("icons/play.png")));
         runButton.setBorder(null);
         runButton.setFocusPainted(false);
         runButton.addActionListener(e -> manager.runScript());
