@@ -7,8 +7,6 @@
     <JAVADOC>
       <root url="jar://$PROJECT_DIR$/lib/flatlaf-0.44-javadoc.jar!/" />
     </JAVADOC>
-    <SOURCES>
-      <root url="jar://$PROJECT_DIR$/lib/flatlaf-0.44-sources.jar!/" />
-    </SOURCES>
+    <SOURCES />
   </library>
 </component>
