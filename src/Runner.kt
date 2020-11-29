@@ -43,7 +43,8 @@ object Runner {
     }
 
     fun isProcessAlive(): Boolean {
-        return process!!.isAlive
+        return if (process != null) process!!.isAlive
+        else false
     }
 
     private fun inheritIO(src: InputStream, dest: PrintStream) {

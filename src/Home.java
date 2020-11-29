@@ -4,6 +4,7 @@ import com.formdev.flatlaf.FlatLightLaf;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rtextarea.RTextArea;
 import org.fife.ui.rtextarea.RTextScrollPane;
+import syntax.Theme;
 
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -17,8 +18,10 @@ public class Home extends JFrame {
     private JLabel runningLabel;
     private JLabel languageLabel;
     private HomeManager manager;
+    private Theme theme;
 
-    public Home() {
+    public Home(Theme theme) {
+        this.theme = theme;
         this.setContentPane(mainPane);
         this.setSize(700, 600);
         this.setLocationRelativeTo(null);
@@ -39,17 +42,17 @@ public class Home extends JFrame {
 
     public void setRunningLabel() {
         runningLabel.setText("Running");
-        runningLabel.setIcon(new ImageIcon(getClass().getResource("/icons/loading.gif")));
+        // runningLabel.setIcon(new ImageIcon(getClass().getResource("/icons/loading.gif")));
     }
 
     public void setGoodLabel() {
         runningLabel.setText("Exit code: 0");
-        runningLabel.setIcon(new ImageIcon(getClass().getResource("/icons/good.png")));
+        // runningLabel.setIcon(new ImageIcon(getClass().getResource("/icons/good.png")));
     }
 
     public void setBadLabel(int exitCode) {
         runningLabel.setText("Non-zero exit code: " + exitCode);
-        runningLabel.setIcon(new ImageIcon(getClass().getResource("/icons/bad.png")));
+        // runningLabel.setIcon(new ImageIcon(getClass().getResource("/icons/bad.png")));
     }
 
     public void clearConsole() {
@@ -57,7 +60,7 @@ public class Home extends JFrame {
     }
 
     private void createUIComponents() {
-        FlatLightLaf.install();
+        this.theme.setFrameLookAndFeel(this);
         createEditorPane();
         createConsole();
         manager = new HomeManager(this, editorPane, console);
@@ -66,7 +69,9 @@ public class Home extends JFrame {
 
     private void createEditorPane() {
         editorPane = new RSyntaxTextArea();
+        this.theme.setTextAreaTheme(editorPane);
         editorScrollPane = new RTextScrollPane(editorPane);
+        this.theme.setScrollPaneTheme((RTextScrollPane) editorScrollPane);
         editorScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
     }
 
@@ -118,6 +123,22 @@ public class Home extends JFrame {
         editMenu.addSeparator();
         editMenu.add(createMenuItem(RTextArea.getAction(RTextArea.SELECT_ALL_ACTION)));
         menuBar.add(editMenu);
+
+        var console = new JMenu("Console");
+        console.addActionListener(e -> {
+            clearConsole();
+        });
+        menuBar.add(console);
+
+        menuBar.add(Box.createHorizontalGlue());
+
+        var runButton = new JButton("Run");
+        runButton.setBorder(null);
+        runButton.setFocusPainted(false);
+        runButton.addActionListener(e -> {
+            manager.runScript();
+        });
+        menuBar.add(runButton);
 
         this.setJMenuBar(menuBar);
     }

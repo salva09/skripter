@@ -14,6 +14,12 @@ class HomeManager(
 ) {
     private var savedText = ""
 
+    init {
+        // TODO("This is redirecting the output but not showing in the console")
+        // redirectOutput(outputPane)
+        initSyntax()
+    }
+
     fun newFile() {
         ifIsSavedElseSave {
             frame.title = "Skripter"

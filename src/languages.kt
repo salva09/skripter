@@ -25,7 +25,7 @@ private val languages = listOf(
         "kotlinc -script",
         "kotlin -version",
         "text/kotlin",
-        "me.salva.syntax.KotlinSyntax",
+        "syntax.KotlinSyntax",
         "kts",
         "https://kotlinlang.org/",
         "https://kotlinlang.org/docs/tutorials/command-line.html"
@@ -38,7 +38,7 @@ private val languages = listOf(
         "/usr/bin/env swift",
         "/usr/bin/env swift -version",
         "text/swift",
-        "me.salva.syntax.SwiftSyntax",
+        "syntax.SwiftSyntax",
         "swift",
         "https://swift.org/",
         "https://swift.org/getting-started/#installing-swift"
