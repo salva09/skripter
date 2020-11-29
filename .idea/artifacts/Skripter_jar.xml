@@ -1,0 +1,15 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="Skripter:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/Skripter_jar</output-path>
+    <root id="archive" name="Skripter.jar">
+      <element id="module-output" name="Skripter" />
+      <element id="extracted-dir" path="$APPLICATION_PLUGINS_DIR$/Kotlin/kotlinc/lib/kotlin-stdlib.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$APPLICATION_PLUGINS_DIR$/Kotlin/kotlinc/lib/kotlin-reflect.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$APPLICATION_PLUGINS_DIR$/Kotlin/kotlinc/lib/kotlin-test.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$APPLICATION_PLUGINS_DIR$/Kotlin/kotlinc/lib/kotlin-stdlib-jdk7.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$APPLICATION_PLUGINS_DIR$/Kotlin/kotlinc/lib/kotlin-stdlib-jdk8.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/flatlaf-0.44.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/rsyntaxtextarea-3.1.1.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
