@@ -1,5 +1,7 @@
 package me.salva
 
+import java.awt.Desktop
+import java.net.URI
 import javax.swing.JEditorPane
 import javax.swing.JFrame
 import javax.swing.JOptionPane
@@ -108,29 +110,58 @@ object HomeManager {
     }
 
     private fun showErrorWhenNoInterpreter() {
-        val message = when (FileManager.getFileExtension()) {
+        val options = arrayOf(
+            "Okay",
+            "Online help"
+        )
+        val language: Pair<String, String> = when (FileManager.getFileExtension()) {
             "kts" -> {
-                "To run Kotlin scripts I need to be able to access the Kotlin cli compiler.\n" +
-                    "Please make sure that you have it installed and \"kotlinc -v\" returns 0."
+                Pair(
+                    "<html>" +
+                        "To run Kotlin scripts I need to be able to access the Kotlin cli compiler.<br>" +
+                        "Please make sure that you have it installed and \"kotlinc -v\" returns 0.<br>" +
+                        "</html>",
+                    "https://kotlinlang.org/docs/tutorials/command-line.html"
+                )
             }
             "swift" -> {
-                "To run Swift scripts I need to be able to access the Swift cli compiler.\n" +
-                    "Please make sure that you have it installed and \"swift -version\" returns 0."
+                Pair(
+                    "<html>" +
+                            "To run Swift scripts I need to be able to access the Swift cli compiler.<br>" +
+                            "Please make sure that you have it installed and \"swift -version\" returns 0.<br>" +
+                            "</html>",
+                    "https://swift.org/getting-started/#installing-swift"
+                )
             }
             "py" -> {
-                "To run Python scripts I need to be able to access the Python interpreter.\n" +
-                    "Please make sure that you have it installed and \"python -V\" returns 0."
+                Pair(
+                    "<html>" +
+                            "To run Python scripts I need to be able to access the Python interpreter.<br>" +
+                            "Please make sure that you have it installed and \"python -V\" returns 0.<br>" +
+                            "</html>",
+                    "https://wiki.python.org/moin/BeginnersGuide/Download"
+                )
             }
             else -> {
-                "I'm sorry, but this script is currently not supported."
+                Pair(
+                    "<html>" +
+                            "I'm sorry, but this script is not currently supported" +
+                            "</html>",
+                    "https://www.google.com/search?q=${FileManager.getFileExtension()}"
+                )
             }
         }
-        JOptionPane.showMessageDialog(
+        val result = JOptionPane.showOptionDialog(
             Home,
-            message,
+            language.first,
             "Error",
-            JOptionPane.ERROR_MESSAGE
+            JOptionPane.YES_NO_OPTION,
+            JOptionPane.ERROR_MESSAGE,
+            null,
+            options,
+            null
         )
+        if (result == 1) Desktop.getDesktop().browse(URI(language.second))
     }
 
     private fun hasInterpreterInstalled(): Boolean {
