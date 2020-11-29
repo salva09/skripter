@@ -35,7 +35,12 @@ object Runner {
     }
 
     fun stop() {
-        process?.destroyForcibly()
+        /* The process can not be stopped
+        "Because some native platforms only provide limited buffer size for standard
+        input and output streams, failure to promptly write the input stream or read
+        the output stream of the subprocess may cause the subprocess to block, and
+        even deadlock."
+        */
         process?.destroy()
         println("I was killed. x_x")
     }

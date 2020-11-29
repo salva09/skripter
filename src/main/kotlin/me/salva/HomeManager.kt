@@ -82,8 +82,8 @@ object HomeManager {
             if (Runner.isProcessAlive()) {
                 val message = "The previous script is still running!"
                 val options = arrayOf(
-                    "Wait to finish",
-                    "Kill it"
+                    "Wait to finish"
+                    // "Kill it"
                 )
                 val result = JOptionPane.showOptionDialog(
                     Home,

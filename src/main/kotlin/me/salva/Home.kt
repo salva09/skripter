@@ -109,7 +109,7 @@ object Home : JFrame() {
         splitPane.dividerSize = 20
         splitPane.dividerLocation = 600
 
-        sp.preferredSize = Dimension(500, 500)
+        sp.preferredSize = Dimension(500, 300)
         sp.minimumSize = Dimension(MIN_PANE_WIDTH, MIN_PANE_HEIGHT)
 
         outputScrollPane.preferredSize = Dimension(500, 100)
