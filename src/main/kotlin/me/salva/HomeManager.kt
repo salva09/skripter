@@ -27,6 +27,7 @@ object HomeManager {
             frame.title = "Skripter"
             setEditorContent("")
             editorPane.syntaxEditingStyle = ""
+            editorPane.discardAllEdits()
         }
     }
 
@@ -37,6 +38,7 @@ object HomeManager {
                 frame.title = "Skripter: ${FileManager.fileName}"
                 setEditorContent(FileManager.getFileContent())
                 editorPane.syntaxEditingStyle = getLanguageByExtension(FileManager.getFileExtension()).syntaxKey
+                editorPane.discardAllEdits()
             } catch (ex: IOException) {}
         }
     }

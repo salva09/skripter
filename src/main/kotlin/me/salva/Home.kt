@@ -4,6 +4,7 @@ import me.salva.syntax.setFrameLookAndFeel
 import me.salva.syntax.setLightScrollPane
 import me.salva.syntax.setLightTextArea
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea
+import org.fife.ui.rtextarea.RTextArea
 import org.fife.ui.rtextarea.RTextScrollPane
 import java.awt.Dimension
 import java.awt.GridBagConstraints
@@ -34,8 +35,6 @@ object Home : JFrame() {
     private fun buildUi() {
         mainPane = JPanel()
         mainPane.layout = GridBagLayout()
-
-        createMenuBar()
 
         val c = GridBagConstraints()
 
@@ -80,6 +79,8 @@ object Home : JFrame() {
         c.weighty = 1.0
         c.fill = GridBagConstraints.BOTH
         mainPane.add(createRunningLabel(), c)
+
+        createMenuBar()
     }
 
     private fun setFrameConfigurations() {
@@ -100,7 +101,6 @@ object Home : JFrame() {
     }
 
     private fun createSplitPane(): JSplitPane {
-        // TODO("Implement syntax highlight")
         initSyntax()
         editorPane = RSyntaxTextArea()
 
@@ -148,6 +148,20 @@ object Home : JFrame() {
         FileManager.menuItem = item
         menuBar.add(file)
 
+        val edit = JMenu("Edit")
+
+        newMenuItem("Undo", {}, edit, RTextArea.getAction(RTextArea.UNDO_ACTION))
+        newMenuItem("Redo", {}, edit, RTextArea.getAction(RTextArea.REDO_ACTION))
+        edit.addSeparator()
+        newMenuItem("Cut", {}, edit, RTextArea.getAction(RTextArea.CUT_ACTION))
+        newMenuItem("Copy", {}, edit, RTextArea.getAction(RTextArea.COPY_ACTION))
+        newMenuItem("Paste", {}, edit, RTextArea.getAction(RTextArea.PASTE_ACTION))
+        newMenuItem("Delete", {}, edit, RTextArea.getAction(RTextArea.DELETE_ACTION))
+        edit.addSeparator()
+        newMenuItem("Select all", {}, edit, RTextArea.getAction(RTextArea.SELECT_ALL_ACTION))
+
+        menuBar.add(edit)
+
         val console = JMenu("Console")
         newMenuItem("Clear", { HomeManager.cleanConsole() }, console)
         menuBar.add(console)
@@ -190,14 +204,25 @@ object Home : JFrame() {
         running.icon = ImageIcon(javaClass.getResource("/icons/bad.png"))
     }
 
-    private fun newMenuItem(label: String, action: () -> Unit, parent: JMenu): JMenuItem {
-        val item = JMenuItem(label)
+    private fun newMenuItem(
+        label: String,
+        actionListener: () -> Unit,
+        parent: JMenu,
+        action: Action? = null,
+    ): JMenuItem {
+        val item: JMenuItem
 
-        item.addActionListener {
-            action()
+        if (action != null) {
+            item = JMenuItem(action)
+        } else {
+            item = JMenuItem(label)
+            item.addActionListener {
+                actionListener()
+            }
         }
-
+        item.toolTipText = null
         parent.add(item)
+
         return item
     }
 
