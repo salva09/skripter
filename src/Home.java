@@ -160,6 +160,14 @@ public class Home extends JFrame {
         runButton.addActionListener(e -> manager.runScript());
         menuBar.add(runButton);
 
+        /*
+        var stopButton = new JButton("Stop");
+        stopButton.setBorder(null);
+        stopButton.setFocusPainted(false);
+        stopButton.addActionListener(e -> manager.stopScript());
+        menuBar.add(stopButton);
+        */
+
         this.setJMenuBar(menuBar);
     }
 

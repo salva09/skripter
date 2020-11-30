@@ -98,30 +98,34 @@ class HomeManager(
                     showErrorWhenNoInterpreter()
                     return
                 }
+                print(Runner.isProcessAlive())
                 if (Runner.isProcessAlive()) {
                     val message = "The previous script is still running!"
                     val options = arrayOf(
                         "Wait to finish"
-                        // "Kill it"
                     )
-                    val result = JOptionPane.showOptionDialog(
+                    JOptionPane.showOptionDialog(
                         frame,
                         message,
                         "",
-                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.YES_OPTION,
                         JOptionPane.INFORMATION_MESSAGE,
                         null,
                         options,
                         null
                     )
-                    if (result == 0) return
-                    else stopScript()
                 } else {
                     Runner.run(FileManager.getFilePath())
                 }
             }
         }
     }
+
+    /*
+    fun stopScript() {
+        Runner.stop()
+    }
+     */
 
     fun cleanConsole() {
         outputPane.text = ""
@@ -171,10 +175,6 @@ class HomeManager(
             if (process.waitFor() == 0) return true
         } catch (ex: ClassNotFoundException) {}
         return false
-    }
-
-    private fun stopScript() {
-        Runner.stop()
     }
 
     private fun setEditorContent(newContent: String) {
