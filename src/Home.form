@@ -75,6 +75,12 @@
               <text value=""/>
             </properties>
           </component>
+          <component id="dad0b" class="javax.swing.JLabel" binding="caretLabel" custom-create="true">
+            <constraints/>
+            <properties>
+              <text value=""/>
+            </properties>
+          </component>
         </children>
       </toolbar>
     </children>

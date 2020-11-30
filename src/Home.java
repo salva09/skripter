@@ -21,6 +21,7 @@ public class Home extends JFrame {
     private JButton runButton;
     private JLabel runningLabel;
     private JLabel languageLabel;
+    private JLabel caretLabel;
     private HomeManager manager;
     private Theme theme;
 
@@ -84,6 +85,12 @@ public class Home extends JFrame {
         editorScrollPane = new RTextScrollPane(editorPane);
         this.theme.setScrollPaneTheme((RTextScrollPane) editorScrollPane);
         editorScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+
+        caretLabel = new JLabel();
+        editorPane.addCaretListener(l -> {
+            var caretPosition = " | " + editorPane.getCaretLineNumber() + ":" + editorPane.getCaretOffsetFromLineStart();
+            caretLabel.setText(caretPosition);
+        });
     }
 
     private void createConsole() {
