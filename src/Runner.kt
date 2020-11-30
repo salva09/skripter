@@ -1,7 +1,6 @@
 
-import java.io.InputStream
-import java.io.PrintStream
-import java.util.Scanner
+import java.io.*
+import java.util.*
 
 object Runner {
     private lateinit var scriptThread: Thread
@@ -21,8 +20,8 @@ object Runner {
                     .executionCommand + " " + script
             )
 
-            inheritIO(process!!.inputStream, System.out)
-            inheritIO(process!!.errorStream, System.err)
+            inheritIO(process!!.errorStream)
+            inheritIO(process!!.inputStream)
 
             exitCode = process!!.waitFor()
             if (exitCode == 0) view.setGoodLabel()
@@ -47,10 +46,14 @@ object Runner {
         else false
     }
 
-    private fun inheritIO(src: InputStream, dest: PrintStream) {
-        val sc = Scanner(src)
-        while (sc.hasNextLine()) {
-            dest.println(sc.nextLine())
+    private fun inheritIO(inputStream: InputStream) {
+        try {
+            val isr = InputStreamReader(inputStream)
+            val br = BufferedReader(isr)
+            var line: String?
+            while (br.readLine().also { line = it } != null) println(line)
+        } catch (ioe: IOException) {
+            ioe.printStackTrace()
         }
     }
 }
