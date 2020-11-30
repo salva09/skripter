@@ -61,6 +61,11 @@ public class Home extends JFrame {
         runningLabel.setIcon(new ImageIcon(getClass().getResource("icons/bad.png")));
     }
 
+    public void setInterruptedLabel() {
+        runningLabel.setText("Interrupted");
+        runningLabel.setIcon(new ImageIcon(getClass().getResource("icons/bad.png")));
+    }
+
     public void setLanguageLabel(Language language) {
         this.languageLabel.setText(language.getName());
         this.languageLabel.setIcon(new ImageIcon(getClass().getResource(language.getIcon())));
@@ -160,13 +165,15 @@ public class Home extends JFrame {
         runButton.addActionListener(e -> manager.runScript());
         menuBar.add(runButton);
 
-        /*
-        var stopButton = new JButton("Stop");
+        menuBar.add(Box.createHorizontalStrut(10));
+
+        var stopButton = new JButton(new ImageIcon(getClass().getResource("icons/stop.png")));
         stopButton.setBorder(null);
         stopButton.setFocusPainted(false);
         stopButton.addActionListener(e -> manager.stopScript());
         menuBar.add(stopButton);
-        */
+
+        menuBar.add(Box.createHorizontalStrut(10));
 
         this.setJMenuBar(menuBar);
     }

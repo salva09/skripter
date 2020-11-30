@@ -1,9 +1,14 @@
-
-import java.io.*
-import java.util.*
+import java.io.BufferedReader
+import java.io.InputStream
+import java.io.InputStreamReader
+import java.lang.Error
+import java.lang.Exception
 
 object Runner {
     private lateinit var scriptThread: Thread
+    var isProcessAlive = false
+        private set
+    private var isInterrupted = false
     private var exitCode = 0
     private var process: Process? = null
 
@@ -14,7 +19,7 @@ object Runner {
             view.clearConsole()
 
             view.setRunningLabel()
-
+            isProcessAlive = true
             process = Runtime.getRuntime().exec(
                 getLanguageByExtension(FileManager.getFileExtension())
                     .executionCommand + " " + script
@@ -23,27 +28,26 @@ object Runner {
             inheritIO(process!!.errorStream)
             inheritIO(process!!.inputStream)
 
+            isProcessAlive = false
             exitCode = process!!.waitFor()
-            if (exitCode == 0) view.setGoodLabel()
-            else view.setBadLabel(exitCode)
+            if (isInterrupted) {
+                view.setInterruptedLabel()
+                isInterrupted = false
+            } else {
+                if (exitCode == 0) view.setGoodLabel()
+                else view.setBadLabel(exitCode)
+            }
         }
         scriptThread.start()
     }
 
     fun stop() {
-        /* The process can not be stopped
-        "Because some native platforms only provide limited buffer size for standard
-        input and output streams, failure to promptly write the input stream or read
-        the output stream of the subprocess may cause the subprocess to block, and
-        even deadlock."
-        */
-        process?.destroy()
-        println("I was killed. x_x")
-    }
-
-    fun isProcessAlive(): Boolean {
-        return if (process != null) process!!.isAlive
-        else false
+        if (!isProcessAlive) return
+        process?.destroyForcibly()
+        // Is this really safe and kills the process? I don't think so
+        // but I will let it here unless I think in something better
+        scriptThread.interrupt()
+        isInterrupted = true
     }
 
     private fun inheritIO(inputStream: InputStream) {
@@ -52,8 +56,10 @@ object Runner {
             val br = BufferedReader(isr)
             var line: String?
             while (br.readLine().also { line = it } != null) println(line)
-        } catch (ioe: IOException) {
-            ioe.printStackTrace()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        } catch (err: Error) {
+            // print(err.message)
         }
     }
 }

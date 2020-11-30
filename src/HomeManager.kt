@@ -98,8 +98,7 @@ class HomeManager(
                     showErrorWhenNoInterpreter()
                     return
                 }
-                print(Runner.isProcessAlive())
-                if (Runner.isProcessAlive()) {
+                if (Runner.isProcessAlive) {
                     val message = "The previous script is still running!"
                     val options = arrayOf(
                         "Wait to finish"
@@ -121,11 +120,9 @@ class HomeManager(
         }
     }
 
-    /*
     fun stopScript() {
         Runner.stop()
     }
-     */
 
     fun cleanConsole() {
         outputPane.text = ""
