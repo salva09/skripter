@@ -57,7 +57,7 @@ object Runner {
             var line: String?
             while (br.readLine().also { line = it } != null) println(line)
         } catch (e: Exception) {
-            e.printStackTrace()
+            // e.printStackTrace()
         } catch (err: Error) {
             // print(err.message)
         }
