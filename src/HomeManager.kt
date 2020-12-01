@@ -44,7 +44,7 @@ class HomeManager(
                 setEditorContent(FileManager.getFileContent())
                 editorPane.discardAllEdits()
                 editorPane.syntaxEditingStyle = ""
-                frame.setLanguageLabel(Language(name = FileManager.getFileExtension()))
+                frame.setLanguageLabel(null)
             }
         }
     }
@@ -63,7 +63,7 @@ class HomeManager(
             false
         } catch (ex: ClassNotFoundException) {
             editorPane.syntaxEditingStyle = ""
-            frame.setLanguageLabel(Language(name = "No language"))
+            frame.setLanguageLabel(null)
             true
         }
     }
@@ -78,7 +78,7 @@ class HomeManager(
             frame.setLanguageLabel(language)
         } catch (ex: ClassNotFoundException) {
             editorPane.syntaxEditingStyle = ""
-            frame.setLanguageLabel(Language(name = "No language"))
+            frame.setLanguageLabel(null)
         }
     }
 
