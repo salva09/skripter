@@ -4,6 +4,8 @@
 # Skripter
 A GUI tool that allows users to enter a script, execute it, and see its output side-by-side
 
+[![](preview.jpeg)]()
+
 ## Required functionality:
 - [x] Should have an editor pane and an output pane.
 - [x] Write the script to a file and run it using `/usr/bin/env swift foo.swift`, or `kotlinc -script foo.kts` respectively.
