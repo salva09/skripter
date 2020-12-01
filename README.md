@@ -18,6 +18,13 @@ A GUI tool that allows users to enter a script, execute it, and see its output s
 - [ ] Make location descriptions of errors (e.g. “script:2:1: error: cannot find 'foo' in scope”) clickable, so users can navigate to the exact cursor positions in code.
 - [ ] Add a mechanism to run the script multiple times. Show a progress bar as well as an estimate of the time remaining. The estimate should be based on the time elapsed for already finished runs of the batch. More recent runs should be weighted more than older ones.
 
+## Planned features
+- [ ] Add support for opening files in tabs
+- [ ] Add custom execution commands through a lambda so scripts can run in windows or other languages can be interpreted
+- [ ] Option to change the theme
+- [ ] Add the ability to read input from the console
+- [ ] Better syntax highlighting and a code completion system 
+
 ## Built with
 * [Kotlin](https://kotlinlang.org/) - Programming language
 * [OpenJDK 11](https://openjdk.java.net/) - Runtime environment and development kit
