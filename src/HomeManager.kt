@@ -25,7 +25,7 @@ class HomeManager(
             setEditorContent("")
             editorPane.discardAllEdits()
             editorPane.syntaxEditingStyle = ""
-            frame.setLanguageLabel(Language(name = "No language"))
+            frame.setLanguageLabel(null)
         }
     }
 

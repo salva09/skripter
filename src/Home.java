@@ -67,8 +67,13 @@ public class Home extends JFrame {
     }
 
     public void setLanguageLabel(Language language) {
-        this.languageLabel.setText(language.getName());
-        this.languageLabel.setIcon(new ImageIcon(getClass().getResource(language.getIcon())));
+        if (language == null) {
+            this.languageLabel.setText("No language");
+            this.languageLabel.setIcon(null);
+        } else {
+            this.languageLabel.setText(language.getName());
+            this.languageLabel.setIcon(new ImageIcon(getClass().getResource(language.getIcon())));
+        }
     }
 
     public void clearConsole() {
