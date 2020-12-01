@@ -49,7 +49,7 @@ private val languages = listOf(
             "systems more effectively.",
         "icons/python.png",
         "/usr/bin/env python",
-        "python -V",
+        "/usr/bin/env python -V",
         SyntaxConstants.SYNTAX_STYLE_PYTHON,
         "",
         "py",
