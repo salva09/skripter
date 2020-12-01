@@ -257,8 +257,8 @@ public class Home extends JFrame {
     }
 
     private void createLabels() {
-        runningLabel = new JLabel();
-        languageLabel = new JLabel();
+        runningLabel = new JLabel("Idle");
+        languageLabel = new JLabel("No language");
     }
 
     private JMenuItem createMenuItem(Action action) {
