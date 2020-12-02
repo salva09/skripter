@@ -26,7 +26,7 @@ A GUI tool that allows users to enter a script, execute it, and see its output s
 - [ ] Option to change the theme
 - [ ] Add the ability to read input from the console
 - [ ] Better syntax highlighting and a code completion system 
-- [ ] Use Jetpack Compose for Desktop?
+- [ ] Use Jetpack Compose for Desktop example as a base for a new UI
 
 ## Built with
 * [Kotlin](https://kotlinlang.org/) - Programming language
