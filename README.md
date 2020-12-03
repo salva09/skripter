@@ -4,7 +4,7 @@
 # Skripter
 A GUI tool that allows users to enter a script, execute it, and see its output side-by-side
 
-[![](preview.jpeg)]()
+[![](preview.png)]()
 
 ## Required functionality:
 - [x] Should have an editor pane and an output pane.
