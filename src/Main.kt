@@ -1,3 +1,4 @@
+import syntax.GtkTheme
 import syntax.LightTheme
 
 lateinit var view: Home
